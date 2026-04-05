@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#0f1720">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -32,37 +33,12 @@
     /* === SYNC STATUS BAR === */
     .sync-bar{
       position:fixed;top:0;left:0;right:0;z-index:500;padding:6px 20px;font-size:12px;
-      font-weight:600;text-align:center;transform:translateY(-100%);transition:transform .3s;
-      letter-spacing:.3px
+      font-weight:600;text-align:center;transform:translateY(-100%);transition:transform .3s;letter-spacing:.3px
     }
     .sync-bar.show{transform:translateY(0)}
     .sync-bar.syncing{background:var(--accent);color:var(--bg)}
     .sync-bar.offline{background:var(--amber);color:var(--bg)}
     .sync-bar.error{background:var(--red);color:#fff}
-
-    /* === AUTH SCREEN === */
-    .auth-screen{
-      position:fixed;inset:0;z-index:400;background:var(--bg);
-      display:flex;flex-direction:column;align-items:center;justify-content:center;
-      padding:40px;text-align:center;transition:opacity .3s
-    }
-    .auth-screen.hidden{opacity:0;pointer-events:none}
-    .auth-logo{font-family:'Outfit',sans-serif;font-size:32px;font-weight:700;margin-bottom:8px}
-    .auth-logo span{color:var(--accent)}
-    .auth-sub{color:var(--muted);font-size:15px;margin-bottom:40px;line-height:1.5}
-    .google-btn{
-      display:flex;align-items:center;gap:12px;padding:14px 28px;
-      background:#fff;border:none;border-radius:var(--r);cursor:pointer;
-      font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;color:#333;
-      box-shadow:0 2px 12px rgba(0,0,0,.2);transition:transform .12s
-    }
-    .google-btn:active{transform:scale(.96)}
-    .google-btn svg{width:20px;height:20px}
-    .auth-skip{
-      margin-top:20px;background:0;border:0;color:var(--dim);font-family:'DM Sans',sans-serif;
-      font-size:13px;cursor:pointer;padding:10px;text-decoration:underline
-    }
-    .auth-skip:active{color:var(--muted)}
 
     /* === HEADER === */
     .header{
@@ -77,25 +53,58 @@
     .header-stats{display:flex;gap:16px;font-size:12px;color:var(--muted)}
     .header-stats b{color:var(--text);font-weight:600}
     .header-stats .warn{color:var(--amber)}
-    .user-avatar{
-      width:30px;height:30px;border-radius:50%;border:2px solid var(--border);cursor:pointer;
-      object-fit:cover;transition:border-color .2s
-    }
-    .user-avatar:active{border-color:var(--accent)}
     .user-btn{
       width:30px;height:30px;border-radius:50%;border:2px solid var(--border);cursor:pointer;
       background:var(--surface2);color:var(--muted);display:flex;align-items:center;justify-content:center;
       font-size:14px;transition:border-color .2s
     }
     .user-btn:active{border-color:var(--accent)}
+    .user-btn.synced{border-color:var(--green);color:var(--green)}
 
     /* === USER MENU === */
     .user-menu{
       position:absolute;top:calc(100% + 8px);right:20px;background:var(--surface);
       border:1px solid var(--border);border-radius:var(--rs);padding:8px;z-index:150;
-      min-width:200px;box-shadow:0 8px 30px rgba(0,0,0,.4);display:none
+      min-width:260px;box-shadow:0 8px 30px rgba(0,0,0,.4);display:none
     }
     .user-menu.open{display:block}
+    .user-menu-section{padding:10px 12px;border-bottom:1px solid var(--border);margin-bottom:4px}
+    .user-menu-section:last-child{border-bottom:0;margin-bottom:0}
+    .user-menu-label{font-size:10px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+    .sync-code-display{
+      display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--border);
+      border-radius:8px;padding:10px 12px;margin-top:4px
+    }
+    .sync-code-display code{
+      font-family:'DM Sans',monospace;font-size:18px;font-weight:700;color:var(--accent);
+      letter-spacing:2px;flex:1
+    }
+    .sync-code-display .copy-btn{
+      background:0;border:0;color:var(--muted);cursor:pointer;padding:4px;
+      display:flex;align-items:center;justify-content:center;transition:color .15s
+    }
+    .sync-code-display .copy-btn:active{color:var(--accent)}
+    .sync-code-display .copy-btn.copied{color:var(--green)}
+    .sync-status-text{font-size:11px;color:var(--dim);margin-top:6px}
+    .sync-status-text .dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:4px;vertical-align:middle}
+    .sync-status-text .dot.green{background:var(--green)}
+    .sync-status-text .dot.amber{background:var(--amber)}
+    .sync-status-text .dot.grey{background:var(--dim)}
+    .link-input-row{display:flex;gap:6px;margin-top:6px}
+    .link-input-row input{
+      flex:1;padding:10px 12px;background:var(--bg);border:1px solid var(--border);
+      border-radius:8px;color:var(--text);font-family:'DM Sans',monospace;font-size:14px;
+      font-weight:600;letter-spacing:1px;outline:0;text-transform:uppercase;transition:border-color .2s
+    }
+    .link-input-row input:focus{border-color:var(--accent)}
+    .link-input-row input::placeholder{color:var(--dim);text-transform:none;font-weight:400;letter-spacing:0;font-family:'DM Sans',sans-serif}
+    .link-input-row button{
+      padding:10px 14px;background:var(--accent);border:0;border-radius:8px;
+      color:var(--bg);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;
+      cursor:pointer;white-space:nowrap;transition:opacity .15s
+    }
+    .link-input-row button:active{opacity:.85}
+    .link-input-row button:disabled{opacity:.4;cursor:default}
     .user-menu-item{
       display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;
       border:0;background:0;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;
@@ -103,7 +112,6 @@
     }
     .user-menu-item:active{background:var(--surface2);color:var(--text)}
     .user-menu-item.danger{color:var(--red)}
-    .user-menu-email{padding:8px 12px;font-size:11px;color:var(--dim);border-bottom:1px solid var(--border);margin-bottom:4px}
 
     .tabs{display:flex;gap:4px;background:var(--surface);border-radius:var(--rs);padding:3px}
     .tab{
@@ -139,6 +147,8 @@
     }
     .cpill.active{background:var(--accent-g);border-color:var(--accent);color:var(--accent)}
     .list{padding:6px 20px;padding-bottom:calc(90px + var(--sab))}
+
+    /* === ITEM CARDS === */
     .card{
       background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
       padding:14px 14px 14px 18px;margin-bottom:8px;display:flex;align-items:center;gap:12px;
@@ -157,6 +167,7 @@
     .info{flex:1;min-width:0}
     .info .name{font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .info .meta{display:flex;align-items:center;gap:8px;margin-top:2px;font-size:12px;color:var(--muted)}
+    .info .batch-summary{font-size:11px;color:var(--dim);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .loc-tag{font-size:10px;padding:2px 7px;border-radius:5px;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
     .loc-tag.fridge{background:var(--fridge-bg);color:var(--fridge)}
     .loc-tag.freezer{background:var(--freezer-bg);color:var(--freezer)}
@@ -174,13 +185,18 @@
     .empty{text-align:center;padding:60px 20px;color:var(--dim)}
     .empty .ei{font-size:48px;margin-bottom:14px;opacity:.4}
     .empty p{font-size:14px;line-height:1.6}
+
+    /* === FAB (keyboard-aware) === */
     .fab{
       position:fixed;bottom:calc(22px + var(--sab));right:20px;width:58px;height:58px;
       border-radius:18px;background:var(--accent);border:0;color:var(--bg);font-size:28px;
       cursor:pointer;display:flex;align-items:center;justify-content:center;
-      box-shadow:0 4px 20px rgba(79,195,247,.35);z-index:90;transition:transform .12s
+      box-shadow:0 4px 20px rgba(79,195,247,.35);z-index:90;transition:transform .12s, opacity .2s
     }
     .fab:active{transform:scale(.9)}
+    .fab.kb-hidden{opacity:0;pointer-events:none;transform:scale(.5)}
+
+    /* === OVERLAYS & SHEETS === */
     .overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;opacity:0;pointer-events:none;transition:opacity .25s}
     .overlay.open{opacity:1;pointer-events:all}
     .sheet{
@@ -267,28 +283,34 @@
       border-radius:var(--r);font-size:13px;color:var(--amber);line-height:1.5
     }
     .setup-banner b{display:block;margin-bottom:4px;font-size:14px}
-    .setup-banner code{
-      background:rgba(0,0,0,.3);padding:2px 6px;border-radius:4px;font-size:11px;
-      word-break:break-all
+    .setup-banner code{background:rgba(0,0,0,.3);padding:2px 6px;border-radius:4px;font-size:11px;word-break:break-all}
+    .setup-banner .dismiss{background:0;border:0;color:var(--amber);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;text-decoration:underline;margin-top:8px;padding:0}
+
+    /* === BATCH ROWS (in sheet) === */
+    .batch-list{margin-bottom:8px}
+    .batch-row{
+      display:flex;align-items:center;gap:8px;margin-bottom:8px;
+      padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);
+      animation:fadeIn .2s ease
     }
-    .setup-banner .dismiss{
-      background:0;border:0;color:var(--amber);font-family:'DM Sans',sans-serif;
-      font-size:12px;cursor:pointer;text-decoration:underline;margin-top:8px;padding:0
+    .batch-row .b-field{flex:1;min-width:0}
+    .batch-row .fi{padding:10px 10px;font-size:14px}
+    .batch-row .b-remove{
+      width:32px;height:32px;border:0;border-radius:8px;background:0;color:var(--dim);
+      cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .12s
     }
+    .batch-row .b-remove:active{color:var(--red);background:var(--red-bg)}
+    .add-batch-btn{
+      display:flex;align-items:center;justify-content:center;gap:6px;width:100%;
+      padding:10px;background:0;border:2px dashed var(--border);border-radius:var(--rs);
+      color:var(--dim);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;
+      cursor:pointer;transition:all .15s;margin-bottom:16px
+    }
+    .add-batch-btn:active{border-color:var(--accent);color:var(--accent)}
+    .batch-label{font-size:11px;color:var(--dim);margin-bottom:4px;font-weight:600}
   </style>
 </head>
 <body>
-
-<!-- AUTH SCREEN -->
-<div class="auth-screen" id="authScreen">
-  <div class="auth-logo">Fridge<span>Mate</span></div>
-  <div class="auth-sub">Track what's in your fridge &amp; freezer.<br>Sign in to sync across all your devices.</div>
-  <button class="google-btn" id="googleSignIn" onclick="signInWithGoogle()">
-    <svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-    Sign in with Google
-  </button>
-  <button class="auth-skip" onclick="skipAuth()">Use offline only (no sync)</button>
-</div>
 
 <!-- SYNC STATUS -->
 <div class="sync-bar" id="syncBar"></div>
@@ -303,13 +325,30 @@
         <span class="warn" id="expiringWarn" style="display:none">⚠ <b id="expiringCount">0</b> expiring</span>
       </div>
       <div style="position:relative">
-        <img class="user-avatar" id="userAvatar" style="display:none" onclick="toggleUserMenu()">
-        <button class="user-btn" id="userBtn" onclick="toggleUserMenu()">👤</button>
+        <button class="user-btn" id="userBtn" onclick="toggleUserMenu()">🔗</button>
         <div class="user-menu" id="userMenu">
-          <div class="user-menu-email" id="userEmail">Not signed in</div>
-          <button class="user-menu-item" id="menuSignIn" onclick="signInWithGoogle();toggleUserMenu()">🔑 Sign in to sync</button>
-          <button class="user-menu-item" id="menuSignOut" style="display:none" onclick="signOut();toggleUserMenu()">🚪 Sign out</button>
-          <button class="user-menu-item danger" onclick="exportData();toggleUserMenu()">📤 Export data (JSON)</button>
+          <div class="user-menu-section">
+            <div class="user-menu-label">Your sync code</div>
+            <div class="sync-code-display">
+              <code id="syncCodeText">--------</code>
+              <button class="copy-btn" id="copyCodeBtn" onclick="copySyncCode()" title="Copy code">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+            </div>
+            <div class="sync-status-text" id="syncStatusText">
+              <span class="dot grey"></span> Offline mode
+            </div>
+          </div>
+          <div class="user-menu-section">
+            <div class="user-menu-label">Link another device</div>
+            <div class="link-input-row">
+              <input type="text" id="linkCodeInput" placeholder="Enter code" maxlength="9" autocomplete="off" spellcheck="false">
+              <button id="linkBtn" onclick="linkDevice()">Link</button>
+            </div>
+          </div>
+          <div class="user-menu-section" style="border-bottom:0">
+            <button class="user-menu-item" onclick="exportData();toggleUserMenu()">📤 Export data (JSON)</button>
+          </div>
         </div>
       </div>
     </div>
@@ -321,10 +360,10 @@
   </div>
 </div>
 
-<!-- SETUP BANNER (shown when Firebase not configured) -->
+<!-- SETUP BANNER -->
 <div class="setup-banner" id="setupBanner" style="display:none">
   <b>⚙️ Firebase not configured yet</b>
-  You're running in offline-only mode. To enable cross-device sync, add your Firebase config to the <code>FIREBASE_CONFIG</code> object in index.html. See the README for a step-by-step guide.
+  You're running in offline-only mode. To enable cross-device sync, add your Firebase config to the <code>FIREBASE_CONFIG</code> object in index.html.
   <br><button class="dismiss" onclick="this.parentElement.style.display='none'">Dismiss</button>
 </div>
 
@@ -351,25 +390,18 @@
 
 <div class="cats" id="catBar"></div>
 <div class="list" id="itemList"></div>
-<button class="fab" onclick="openSheet()">+</button>
+<button class="fab" id="fab" onclick="openSheet()">+</button>
 
+<!-- SHEET OVERLAY -->
 <div class="overlay" id="overlay" onclick="closeSheet()"></div>
+
+<!-- ADD/EDIT SHEET -->
 <div class="sheet" id="sheet">
   <div class="sheet-handle"></div>
   <div class="sheet-title" id="sheetTitle">Add Item</div>
   <div class="fg">
     <label class="fl">Item name</label>
     <input class="fi" id="fName" placeholder="e.g. Chicken breast" autocomplete="off">
-  </div>
-  <div class="frow">
-    <div class="fg">
-      <label class="fl">Quantity</label>
-      <input class="fi" id="fQty" type="number" inputmode="numeric" placeholder="1" min="1">
-    </div>
-    <div class="fg">
-      <label class="fl">Use by date</label>
-      <input class="fi" id="fDate" type="date">
-    </div>
   </div>
   <div class="fg">
     <label class="fl">Storage location</label>
@@ -382,10 +414,16 @@
     <label class="fl">Category</label>
     <div class="cat-grid" id="catGrid"></div>
   </div>
+  <div class="fg">
+    <label class="fl">Batches</label>
+    <div class="batch-list" id="batchList"></div>
+    <button class="add-batch-btn" onclick="addBatchRow()">+ Add another batch</button>
+  </div>
   <button class="submit-btn" id="submitBtn" onclick="saveItem()">Add Item</button>
   <button class="delete-btn" id="deleteBtn" style="display:none" onclick="confirmDelete()">Delete Item</button>
 </div>
 
+<!-- CONFIRM DELETE -->
 <div class="overlay" id="confirmOverlay" onclick="cancelDelete()"></div>
 <div class="confirm-dialog" id="confirmDialog">
   <h3>Delete item?</h3>
@@ -396,7 +434,7 @@
   </div>
 </div>
 
-<!-- Firebase SDK (compat for simplicity) -->
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -406,16 +444,16 @@
 // 🔧 FIREBASE CONFIG — Replace with your own from Firebase Console
 // =====================================================================
 const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyDuRkS3tkuuzrFvMO_ohnMVTow-wogqZYQ",
-  authDomain: "fridgemate-83218.firebaseapp.com",
-  projectId: "fridgemate-83218",
-  storageBucket: "fridgemate-83218.firebasestorage.app",
-  messagingSenderId: "1023557674411",
-  appId: "1:1023557674411:web:fff5b097f8c53a6a095eee"
+  apiKey: "",
+  authDomain: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: ""
 };
 
 // =====================================================================
-// STATE
+// CONSTANTS & STATE
 // =====================================================================
 const CATEGORIES=[
   {id:'dairy',emoji:'🥛',label:'Dairy'},{id:'meat',emoji:'🥩',label:'Meat'},
@@ -428,9 +466,74 @@ const CATEGORIES=[
 let items=[], currentTab='all', currentSort='expiry-asc', currentCat='all',
     editId=null, selectedCat='other', selectedLoc='fridge', deleteTargetId=null;
 let localDb, firebaseReady=false, currentUser=null, unsubFirestore=null;
+// syncUid: the UID whose Firestore collection we read/write
+// Could be our own anonymous UID or one we linked to via sync code
+let syncUid = null;
+let mySyncCode = null;
 
 // =====================================================================
-// FIREBASE INIT
+// DATA MIGRATION — convert old single-date items to batches format
+// =====================================================================
+function migrateItem(item) {
+  if (item.batches) return item;
+  const batches = [];
+  if (item.useBy || item.quantity) {
+    batches.push({ qty: item.quantity || 1, useBy: item.useBy || '' });
+  }
+  if (batches.length === 0) batches.push({ qty: 1, useBy: '' });
+  const migrated = { ...item, batches };
+  delete migrated.useBy;
+  delete migrated.quantity;
+  return migrated;
+}
+
+function migrateAll() {
+  items = items.map(migrateItem);
+}
+
+// =====================================================================
+// BATCH HELPERS
+// =====================================================================
+function itemTotalQty(item) {
+  return (item.batches || []).reduce((s, b) => s + (b.qty || 0), 0);
+}
+
+function itemSoonestExpiry(item) {
+  const dates = (item.batches || []).filter(b => b.useBy).map(b => b.useBy);
+  if (!dates.length) return null;
+  dates.sort();
+  return dates[0];
+}
+
+function itemBatchSummary(item) {
+  const batches = (item.batches || []).filter(b => b.useBy);
+  if (batches.length <= 1) return '';
+  return batches.map(b => `${b.qty}× ${expiryLabel(b.useBy)}`).join(' · ');
+}
+
+// =====================================================================
+// SYNC CODE — deterministic 8-char code from UID
+// =====================================================================
+function generateSyncCode(uid) {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // no 0/O/1/I
+  let code = '';
+  for (let i = 0; i < 8; i++) {
+    let seed = 0;
+    for (let j = 0; j < uid.length; j++) {
+      seed = ((seed << 5) - seed + uid.charCodeAt(j) * (i + 1) * (j + 1)) | 0;
+    }
+    code += chars[Math.abs(seed) % chars.length];
+  }
+  return code;
+}
+
+function formatCodeDisplay(code) {
+  if (!code || code.length !== 8) return code || '--------';
+  return code.substring(0, 4) + '-' + code.substring(4);
+}
+
+// =====================================================================
+// FIREBASE INIT — anonymous auth, no sign-in screen
 // =====================================================================
 function isFirebaseConfigured() {
   return FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.projectId;
@@ -444,20 +547,17 @@ function initFirebase() {
   try {
     firebase.initializeApp(FIREBASE_CONFIG);
     firebaseReady = true;
-    // Enable offline persistence
     firebase.firestore().enablePersistence({ synchronizeTabs: true }).catch(err => {
-      if (err.code === 'failed-precondition') console.warn('Firestore persistence: multiple tabs open');
-      else if (err.code === 'unimplemented') console.warn('Firestore persistence: not supported');
+      if (err.code !== 'failed-precondition' && err.code !== 'unimplemented') console.warn(err);
     });
-    // Auth state listener
     firebase.auth().onAuthStateChanged(user => {
       currentUser = user;
-      updateAuthUI();
-      if (user) {
-        subscribeToFirestore();
-      } else {
-        if (unsubFirestore) { unsubFirestore(); unsubFirestore = null; }
-      }
+      if (user) onAuthReady();
+    });
+    firebase.auth().signInAnonymously().catch(err => {
+      console.error('Anonymous auth failed:', err);
+      showSyncBar('Sync unavailable — using local data', 'error');
+      setTimeout(() => hideSyncBar(), 3000);
     });
     return true;
   } catch(e) {
@@ -467,92 +567,159 @@ function initFirebase() {
 }
 
 // =====================================================================
-// AUTH
+// AUTH READY — generate sync code, register it, start syncing
 // =====================================================================
-function signInWithGoogle() {
-  if (!firebaseReady) {
-    alert('Firebase is not configured. Add your config to FIREBASE_CONFIG in index.html first.\n\nSee the README for instructions.');
+async function onAuthReady() {
+  const uid = currentUser.uid;
+  mySyncCode = generateSyncCode(uid);
+
+  // Use stored linked UID if we previously linked to another device
+  const storedSyncUid = localStorage.getItem('fm_sync_uid');
+  syncUid = storedSyncUid || uid;
+
+  // Register our sync code → UID mapping
+  try {
+    await firebase.firestore().collection('syncCodes').doc(mySyncCode).set({
+      uid: uid,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });
+  } catch(e) {
+    console.warn('Could not register sync code:', e.message);
+  }
+
+  updateSyncUI();
+  subscribeToFirestore();
+}
+
+// =====================================================================
+// LINK DEVICE — enter another device's sync code
+// =====================================================================
+async function linkDevice() {
+  const input = document.getElementById('linkCodeInput');
+  const btn = document.getElementById('linkBtn');
+  const code = input.value.replace(/[-\s]/g, '').toUpperCase().trim();
+
+  if (code.length !== 8) {
+    input.style.borderColor = 'var(--red)';
+    setTimeout(() => input.style.borderColor = '', 1500);
     return;
   }
-  const provider = new firebase.auth.GoogleAuthProvider();
-  firebase.auth().signInWithPopup(provider).catch(err => {
-    // Fallback to redirect for mobile
-    if (err.code === 'auth/popup-blocked' || err.code === 'auth/popup-closed-by-user') {
-      firebase.auth().signInWithRedirect(provider);
-    } else {
-      console.error('Auth error:', err);
-      showSyncBar('Sign in failed: ' + err.message, 'error');
+
+  if (code === mySyncCode) {
+    showSyncBar("That's your own code!", 'error');
+    setTimeout(() => hideSyncBar(), 2000);
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = '...';
+
+  try {
+    const doc = await firebase.firestore().collection('syncCodes').doc(code).get();
+    if (!doc.exists) {
+      showSyncBar('Code not found — check and try again', 'error');
+      setTimeout(() => hideSyncBar(), 3000);
+      input.style.borderColor = 'var(--red)';
+      setTimeout(() => input.style.borderColor = '', 1500);
+      btn.disabled = false;
+      btn.textContent = 'Link';
+      return;
     }
+
+    const targetUid = doc.data().uid;
+
+    // Merge our current items into the target collection
+    if (items.length > 0) {
+      const col = firebase.firestore().collection('users').doc(targetUid).collection('items');
+      const batch = firebase.firestore().batch();
+      items.forEach(item => {
+        const { id, ...data } = item;
+        batch.set(col.doc(id), data);
+      });
+      await batch.commit();
+    }
+
+    // Switch to the linked collection
+    syncUid = targetUid;
+    localStorage.setItem('fm_sync_uid', targetUid);
+
+    if (unsubFirestore) { unsubFirestore(); unsubFirestore = null; }
+    subscribeToFirestore();
+    updateSyncUI();
+
+    input.value = '';
+    showSyncBar('Linked! Syncing shared data...', 'syncing');
+    setTimeout(() => hideSyncBar(), 2500);
+
+  } catch(e) {
+    console.error('Link failed:', e);
+    showSyncBar('Link failed — try again', 'error');
+    setTimeout(() => hideSyncBar(), 3000);
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Link';
+}
+
+// =====================================================================
+// SYNC UI
+// =====================================================================
+function updateSyncUI() {
+  const codeEl = document.getElementById('syncCodeText');
+  const statusEl = document.getElementById('syncStatusText');
+  const userBtn = document.getElementById('userBtn');
+
+  if (firebaseReady && currentUser) {
+    codeEl.textContent = formatCodeDisplay(mySyncCode);
+    const isLinked = syncUid && syncUid !== currentUser.uid;
+    statusEl.innerHTML = isLinked
+      ? '<span class="dot green"></span> Linked &amp; syncing'
+      : '<span class="dot green"></span> Syncing';
+    userBtn.classList.add('synced');
+  } else {
+    codeEl.textContent = '--------';
+    statusEl.innerHTML = '<span class="dot grey"></span> Offline mode';
+    userBtn.classList.remove('synced');
+  }
+}
+
+function copySyncCode() {
+  if (!mySyncCode) return;
+  const formatted = formatCodeDisplay(mySyncCode);
+  navigator.clipboard.writeText(formatted).then(() => {
+    const btn = document.getElementById('copyCodeBtn');
+    btn.classList.add('copied');
+    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+    }, 2000);
+  }).catch(() => {
+    const range = document.createRange();
+    range.selectNode(document.getElementById('syncCodeText'));
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
   });
 }
 
-function signOut() {
-  if (!firebaseReady) return;
-  if (unsubFirestore) { unsubFirestore(); unsubFirestore = null; }
-  firebase.auth().signOut();
-  currentUser = null;
-  updateAuthUI();
-}
-
-function skipAuth() {
-  document.getElementById('authScreen').classList.add('hidden');
-  localStorage.setItem('fm_skipped_auth', '1');
-}
-
-function updateAuthUI() {
-  const avatar = document.getElementById('userAvatar');
-  const btn = document.getElementById('userBtn');
-  const email = document.getElementById('userEmail');
-  const signInBtn = document.getElementById('menuSignIn');
-  const signOutBtn = document.getElementById('menuSignOut');
-
-  if (currentUser) {
-    document.getElementById('authScreen').classList.add('hidden');
-    if (currentUser.photoURL) {
-      avatar.src = currentUser.photoURL;
-      avatar.style.display = '';
-      btn.style.display = 'none';
-    }
-    email.textContent = currentUser.email || 'Signed in';
-    signInBtn.style.display = 'none';
-    signOutBtn.style.display = '';
-  } else {
-    avatar.style.display = 'none';
-    btn.style.display = '';
-    email.textContent = 'Not signed in';
-    signInBtn.style.display = '';
-    signOutBtn.style.display = 'none';
-    // Show auth screen only if not skipped
-    if (!localStorage.getItem('fm_skipped_auth') && firebaseReady) {
-      document.getElementById('authScreen').classList.remove('hidden');
-    }
-  }
-}
-
-function toggleUserMenu() {
-  document.getElementById('userMenu').classList.toggle('open');
-}
+function toggleUserMenu() { document.getElementById('userMenu').classList.toggle('open'); }
 
 // =====================================================================
-// FIRESTORE SYNC
+// FIRESTORE SYNC — uses syncUid (own or linked)
 // =====================================================================
 function getUserCollection() {
-  if (!firebaseReady || !currentUser) return null;
-  return firebase.firestore().collection('users').doc(currentUser.uid).collection('items');
+  if (!firebaseReady || !syncUid) return null;
+  return firebase.firestore().collection('users').doc(syncUid).collection('items');
 }
 
 function subscribeToFirestore() {
   const col = getUserCollection();
   if (!col) return;
-
+  if (unsubFirestore) { unsubFirestore(); unsubFirestore = null; }
   showSyncBar('Syncing...', 'syncing');
-
   unsubFirestore = col.onSnapshot(snapshot => {
     items = [];
-    snapshot.forEach(doc => {
-      items.push({ id: doc.id, ...doc.data() });
-    });
-    // Also update local IndexedDB as cache
+    snapshot.forEach(doc => { items.push(migrateItem({ id: doc.id, ...doc.data() })); });
     saveAllToLocal();
     renderList();
     showSyncBar('Synced', 'syncing');
@@ -565,24 +732,14 @@ function subscribeToFirestore() {
 }
 
 async function firestorePut(item) {
-  const col = getUserCollection();
-  if (!col) return;
+  const col = getUserCollection(); if (!col) return;
   const { id, ...data } = item;
-  try {
-    await col.doc(id).set(data);
-  } catch(e) {
-    console.warn('Firestore write queued (offline):', e.message);
-  }
+  try { await col.doc(id).set(data); } catch(e) { console.warn('Firestore write queued:', e.message); }
 }
 
 async function firestoreDelete(id) {
-  const col = getUserCollection();
-  if (!col) return;
-  try {
-    await col.doc(id).delete();
-  } catch(e) {
-    console.warn('Firestore delete queued (offline):', e.message);
-  }
+  const col = getUserCollection(); if (!col) return;
+  try { await col.doc(id).delete(); } catch(e) { console.warn('Firestore delete queued:', e.message); }
 }
 
 // =====================================================================
@@ -590,19 +747,16 @@ async function firestoreDelete(id) {
 // =====================================================================
 function showSyncBar(msg, type) {
   const bar = document.getElementById('syncBar');
-  bar.textContent = msg;
-  bar.className = 'sync-bar show ' + type;
+  bar.textContent = msg; bar.className = 'sync-bar show ' + type;
 }
-function hideSyncBar() {
-  document.getElementById('syncBar').classList.remove('show');
-}
+function hideSyncBar() { document.getElementById('syncBar').classList.remove('show'); }
 
 // =====================================================================
-// LOCAL INDEXEDDB (fallback + cache)
+// LOCAL INDEXEDDB
 // =====================================================================
 function openLocalDB() {
   return new Promise((res, rej) => {
-    const r = indexedDB.open('FridgeMateDB', 1);
+    const r = indexedDB.open('FridgeMateDB', 2);
     r.onupgradeneeded = e => {
       const d = e.target.result;
       if (!d.objectStoreNames.contains('items')) d.createObjectStore('items', { keyPath: 'id' });
@@ -621,37 +775,32 @@ function loadFromLocal() {
 function localPut(item) {
   return new Promise((res, rej) => {
     const tx = localDb.transaction('items', 'readwrite');
-    tx.objectStore('items').put(item);
-    tx.oncomplete = () => res();
-    tx.onerror = e => rej(e);
+    tx.objectStore('items').put(item); tx.oncomplete = () => res(); tx.onerror = e => rej(e);
   });
 }
 function localDelete(id) {
   return new Promise((res, rej) => {
     const tx = localDb.transaction('items', 'readwrite');
-    tx.objectStore('items').delete(id);
-    tx.oncomplete = () => res();
-    tx.onerror = e => rej(e);
+    tx.objectStore('items').delete(id); tx.oncomplete = () => res(); tx.onerror = e => rej(e);
   });
 }
 function saveAllToLocal() {
   if (!localDb) return;
   const tx = localDb.transaction('items', 'readwrite');
-  const store = tx.objectStore('items');
-  store.clear();
+  const store = tx.objectStore('items'); store.clear();
   items.forEach(item => store.put(item));
 }
 
 // =====================================================================
-// UNIFIED DATA OPS (writes to both Firestore + local)
+// UNIFIED DATA OPS
 // =====================================================================
 async function dataPut(item) {
   await localPut(item);
-  if (firebaseReady && currentUser) await firestorePut(item);
+  if (firebaseReady && syncUid) await firestorePut(item);
 }
 async function dataDelete(id) {
   await localDelete(id);
-  if (firebaseReady && currentUser) await firestoreDelete(id);
+  if (firebaseReady && syncUid) await firestoreDelete(id);
 }
 
 // =====================================================================
@@ -662,23 +811,27 @@ function exportData() {
   const blob = new Blob([data], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = 'fridgemate-export.json';
-  a.click(); URL.revokeObjectURL(url);
+  a.href = url; a.download = 'fridgemate-export.json'; a.click(); URL.revokeObjectURL(url);
 }
 
 // =====================================================================
 // UTILS
 // =====================================================================
 function daysUntil(d){if(!d)return Infinity;const t=new Date;t.setHours(0,0,0,0);return Math.ceil((new Date(d+'T00:00:00')-t)/864e5)}
-function expiryStatus(d){const n=daysUntil(d);if(n<0)return'expired';if(n<=2)return'red';if(n<=5)return'amber';return'green'}
+function expiryStatus(d){if(!d)return'green';const n=daysUntil(d);if(n<0)return'expired';if(n<=2)return'red';if(n<=5)return'amber';return'green'}
 function expiryLabel(d){if(!d)return'No date';const n=daysUntil(d);if(n<0)return`Expired ${Math.abs(n)}d ago`;if(n===0)return'Today';if(n===1)return'Tomorrow';return`${n} days`}
 function formatDate(d){if(!d)return'';return new Date(d+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'})}
 function getCatEmoji(c){const f=CATEGORIES.find(x=>x.id===c);return f?f.emoji:'📦'}
 function uuid(){return Date.now().toString(36)+Math.random().toString(36).substr(2,9)}
 function escHtml(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
 
+function itemExpiryStatus(item) {
+  const soonest = itemSoonestExpiry(item);
+  return expiryStatus(soonest);
+}
+
 // =====================================================================
-// UI LOGIC (same as before)
+// UI LOGIC
 // =====================================================================
 function setTab(el){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');currentTab=el.dataset.loc;renderList()}
 
@@ -706,6 +859,9 @@ function buildCatGrid(){
 function pickCat(el){document.querySelectorAll('.copt').forEach(o=>o.classList.remove('active'));el.classList.add('active');selectedCat=el.dataset.cat}
 function pickLoc(el,loc){document.querySelectorAll('.topt').forEach(o=>o.classList.remove('active'));el.classList.add('active');selectedLoc=loc}
 
+// =====================================================================
+// RENDER LIST
+// =====================================================================
 function renderList(){
   const search=document.getElementById('searchInput').value.toLowerCase().trim();
   let f=items.filter(i=>{
@@ -714,31 +870,43 @@ function renderList(){
     if(search&&!i.name.toLowerCase().includes(search))return false;
     return true
   });
+
   f.sort((a,b)=>{
+    const aSoonest = itemSoonestExpiry(a), bSoonest = itemSoonestExpiry(b);
     switch(currentSort){
-      case'expiry-asc':return(daysUntil(a.useBy)||9999)-(daysUntil(b.useBy)||9999);
-      case'expiry-desc':return(daysUntil(b.useBy)||-9999)-(daysUntil(a.useBy)||-9999);
+      case'expiry-asc':return(daysUntil(aSoonest)||9999)-(daysUntil(bSoonest)||9999);
+      case'expiry-desc':return(daysUntil(bSoonest)||-9999)-(daysUntil(aSoonest)||-9999);
       case'name-asc':return a.name.localeCompare(b.name);
       case'name-desc':return b.name.localeCompare(a.name);
       case'added-desc':return(b.addedAt||0)-(a.addedAt||0);
-      case'category':return(a.category||'').localeCompare(b.category||'')||(daysUntil(a.useBy)||9999)-(daysUntil(b.useBy)||9999);
+      case'category':return(a.category||'').localeCompare(b.category||'')||(daysUntil(aSoonest)||9999)-(daysUntil(bSoonest)||9999);
       default:return 0
     }
   });
+
   const list=document.getElementById('itemList');
   if(!f.length){
     list.innerHTML=`<div class="empty"><div class="ei">${search?'🔍':'🍽️'}</div><p>${search?'No items match your search':'Nothing here yet.<br>Tap + to add your first item.'}</p></div>`;
     updateStats();return
   }
+
   list.innerHTML=f.map(item=>{
-    const st=expiryStatus(item.useBy),sc=st==='expired'?'s-expired s-red':`s-${st}`,
-      el=expiryLabel(item.useBy),ec=st==='expired'?'red':st,df=formatDate(item.useBy);
+    const soonest = itemSoonestExpiry(item);
+    const st = expiryStatus(soonest);
+    const sc = st==='expired'?'s-expired s-red':`s-${st}`;
+    const el = expiryLabel(soonest);
+    const ec = st==='expired'?'red':st;
+    const totalQty = itemTotalQty(item);
+    const summary = itemBatchSummary(item);
+
     return`<div class="card ${sc} l-${item.location}">
       <div class="ic">${getCatEmoji(item.category)}</div>
-      <div class="info"><div class="name">${escHtml(item.name)}</div>
-        <div class="meta"><span class="loc-tag ${item.location}">${item.location==='fridge'?'❄️ Fridge':'🧊 Freezer'}</span>${df?`<span>${df}</span>`:''}</div>
+      <div class="info">
+        <div class="name">${escHtml(item.name)}</div>
+        <div class="meta"><span class="loc-tag ${item.location}">${item.location==='fridge'?'❄️ Fridge':'🧊 Freezer'}</span>${soonest?`<span>${formatDate(soonest)}</span>`:''}</div>
+        ${summary?`<div class="batch-summary">${escHtml(summary)}</div>`:''}
       </div>
-      <div class="right"><div class="qty">×${item.quantity}</div><div class="exp ${ec}">${el}</div></div>
+      <div class="right"><div class="qty">×${totalQty}</div><div class="exp ${ec}">${el}</div></div>
       <div class="actions">
         <button class="abtn" onclick="editItem('${item.id}')" title="Edit"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
         <button class="abtn del" onclick="quickDelete('${item.id}')" title="Delete"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
@@ -749,122 +917,242 @@ function renderList(){
 }
 
 function updateStats(){
-  const total=items.length,fc=items.filter(i=>i.location==='fridge').length,zc=items.filter(i=>i.location==='freezer').length;
-  const exp=items.filter(i=>{const d=daysUntil(i.useBy);return d>=0&&d<=3}).length;
-  const dead=items.filter(i=>daysUntil(i.useBy)<0).length;
+  const total=items.length;
+  const fc=items.filter(i=>i.location==='fridge').length;
+  const zc=items.filter(i=>i.location==='freezer').length;
+
+  const expiring = items.filter(i => {
+    const s = itemSoonestExpiry(i);
+    if (!s) return false;
+    return daysUntil(s) <= 3;
+  }).length;
+
   document.getElementById('totalCount').textContent=total;
   document.getElementById('badgeAll').textContent=total;
   document.getElementById('badgeFridge').textContent=fc;
   document.getElementById('badgeFreezer').textContent=zc;
-  const w=exp+dead;const we=document.getElementById('expiringWarn');
-  if(w>0){we.style.display='';document.getElementById('expiringCount').textContent=w}else{we.style.display='none'}
+  const we=document.getElementById('expiringWarn');
+  if(expiring>0){we.style.display='';document.getElementById('expiringCount').textContent=expiring}else{we.style.display='none'}
 }
 
-function openSheet(id){
-  editId=id||null;
-  if(editId){
-    const item=items.find(i=>i.id===editId);if(!item)return;
-    document.getElementById('sheetTitle').textContent='Edit Item';
-    document.getElementById('fName').value=item.name;
-    document.getElementById('fQty').value=item.quantity;
-    document.getElementById('fDate').value=item.useBy||'';
-    selectedLoc=item.location;selectedCat=item.category||'other';
-    document.getElementById('submitBtn').textContent='Save Changes';
-    document.getElementById('deleteBtn').style.display=''
-  }else{
-    document.getElementById('sheetTitle').textContent='Add Item';
-    document.getElementById('fName').value='';document.getElementById('fQty').value='';
-    document.getElementById('fDate').value='';selectedLoc='fridge';selectedCat='other';
-    document.getElementById('submitBtn').textContent='Add Item';
-    document.getElementById('deleteBtn').style.display='none'
+// =====================================================================
+// BATCH ROWS IN SHEET
+// =====================================================================
+let sheetBatches = [];
+
+function renderBatchRows() {
+  const container = document.getElementById('batchList');
+  container.innerHTML = sheetBatches.map((b, i) => `
+    <div class="batch-row" data-idx="${i}">
+      <div class="b-field">
+        <div class="batch-label">Qty</div>
+        <input class="fi" type="number" inputmode="numeric" min="1" placeholder="1"
+          value="${b.qty || ''}" onchange="updateBatch(${i},'qty',this.value)" onfocus="scrollIntoSheet(this)">
+      </div>
+      <div class="b-field" style="flex:1.5">
+        <div class="batch-label">Use by</div>
+        <input class="fi" type="date" value="${b.useBy || ''}"
+          onchange="updateBatch(${i},'useBy',this.value)" onfocus="scrollIntoSheet(this)">
+      </div>
+      ${sheetBatches.length > 1 ? `<button class="b-remove" onclick="removeBatch(${i})" title="Remove batch">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>` : '<div style="width:32px"></div>'}
+    </div>
+  `).join('');
+}
+
+function addBatchRow() {
+  sheetBatches.push({ qty: 1, useBy: '' });
+  renderBatchRows();
+  const container = document.getElementById('batchList');
+  const lastRow = container.lastElementChild;
+  if (lastRow) lastRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function removeBatch(idx) {
+  if (sheetBatches.length <= 1) return;
+  sheetBatches.splice(idx, 1);
+  renderBatchRows();
+}
+
+function updateBatch(idx, field, value) {
+  if (field === 'qty') sheetBatches[idx].qty = parseInt(value) || 1;
+  else sheetBatches[idx][field] = value;
+}
+
+// =====================================================================
+// SHEET
+// =====================================================================
+function openSheet(id) {
+  editId = id || null;
+  if (editId) {
+    const item = items.find(i => i.id === editId); if (!item) return;
+    document.getElementById('sheetTitle').textContent = 'Edit Item';
+    document.getElementById('fName').value = item.name;
+    selectedLoc = item.location; selectedCat = item.category || 'other';
+    sheetBatches = (item.batches || [{ qty: 1, useBy: '' }]).map(b => ({ ...b }));
+    document.getElementById('submitBtn').textContent = 'Save Changes';
+    document.getElementById('deleteBtn').style.display = '';
+  } else {
+    document.getElementById('sheetTitle').textContent = 'Add Item';
+    document.getElementById('fName').value = '';
+    selectedLoc = 'fridge'; selectedCat = 'other';
+    sheetBatches = [{ qty: 1, useBy: '' }];
+    document.getElementById('submitBtn').textContent = 'Add Item';
+    document.getElementById('deleteBtn').style.display = 'none';
   }
-  document.querySelectorAll('.topt').forEach(o=>o.classList.remove('active'));
-  document.querySelector(`.topt.${selectedLoc==='fridge'?'fr':'fz'}`).classList.add('active');
-  document.querySelectorAll('.copt').forEach(o=>o.classList.remove('active'));
-  const cb=document.querySelector(`.copt[data-cat="${selectedCat}"]`);if(cb)cb.classList.add('active');
+
+  document.querySelectorAll('.topt').forEach(o => o.classList.remove('active'));
+  document.querySelector(`.topt.${selectedLoc === 'fridge' ? 'fr' : 'fz'}`).classList.add('active');
+  document.querySelectorAll('.copt').forEach(o => o.classList.remove('active'));
+  const cb = document.querySelector(`.copt[data-cat="${selectedCat}"]`);
+  if (cb) cb.classList.add('active');
+
+  renderBatchRows();
+
   document.getElementById('overlay').classList.add('open');
   document.getElementById('sheet').classList.add('open');
-  setTimeout(()=>document.getElementById('fName').focus(),350)
+  setTimeout(() => document.getElementById('fName').focus(), 350);
 }
-function closeSheet(){document.getElementById('sheet').classList.remove('open');document.getElementById('overlay').classList.remove('open');editId=null}
-function editItem(id){openSheet(id)}
 
-async function saveItem(){
-  const name=document.getElementById('fName').value.trim();
-  if(!name){document.getElementById('fName').style.borderColor='var(--red)';document.getElementById('fName').focus();setTimeout(()=>document.getElementById('fName').style.borderColor='',1500);return}
-  const qty=parseInt(document.getElementById('fQty').value)||1,useBy=document.getElementById('fDate').value||'';
-  if(editId){
-    const idx=items.findIndex(i=>i.id===editId);
-    if(idx>=0){
-      Object.assign(items[idx],{name,quantity:qty,useBy,location:selectedLoc,category:selectedCat});
-      await dataPut(items[idx])
+function closeSheet() {
+  document.getElementById('sheet').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+  editId = null;
+}
+
+function editItem(id) { openSheet(id); }
+
+// =====================================================================
+// SAVE
+// =====================================================================
+async function saveItem() {
+  const name = document.getElementById('fName').value.trim();
+  if (!name) {
+    document.getElementById('fName').style.borderColor = 'var(--red)';
+    document.getElementById('fName').focus();
+    setTimeout(() => document.getElementById('fName').style.borderColor = '', 1500);
+    return;
+  }
+
+  const batches = sheetBatches.map(b => ({
+    qty: Math.max(1, parseInt(b.qty) || 1),
+    useBy: b.useBy || ''
+  }));
+
+  if (editId) {
+    const idx = items.findIndex(i => i.id === editId);
+    if (idx >= 0) {
+      Object.assign(items[idx], { name, batches, location: selectedLoc, category: selectedCat });
+      await dataPut(items[idx]);
     }
-  }else{
-    const item={id:uuid(),name,quantity:qty,useBy,location:selectedLoc,category:selectedCat,addedAt:Date.now()};
+  } else {
+    const item = { id: uuid(), name, batches, location: selectedLoc, category: selectedCat, addedAt: Date.now() };
     items.push(item);
-    await dataPut(item)
+    await dataPut(item);
   }
-  closeSheet();renderList()
+  closeSheet(); renderList();
 }
 
-function quickDelete(id){
-  deleteTargetId=id;const item=items.find(i=>i.id===id);
-  document.getElementById('confirmText').textContent=`Remove "${item?.name||'this item'}" from your list?`;
-  document.getElementById('confirmOverlay').classList.add('open');document.getElementById('confirmDialog').classList.add('open')
+// =====================================================================
+// DELETE
+// =====================================================================
+function quickDelete(id) {
+  deleteTargetId = id;
+  const item = items.find(i => i.id === id);
+  document.getElementById('confirmText').textContent = `Remove "${item?.name || 'this item'}" from your list?`;
+  document.getElementById('confirmOverlay').classList.add('open');
+  document.getElementById('confirmDialog').classList.add('open');
 }
-function confirmDelete(){
-  deleteTargetId=editId;const item=items.find(i=>i.id===editId);
-  document.getElementById('confirmText').textContent=`Remove "${item?.name||'this item'}" from your list?`;
-  document.getElementById('confirmOverlay').classList.add('open');document.getElementById('confirmDialog').classList.add('open')
+function confirmDelete() {
+  deleteTargetId = editId;
+  const item = items.find(i => i.id === editId);
+  document.getElementById('confirmText').textContent = `Remove "${item?.name || 'this item'}" from your list?`;
+  document.getElementById('confirmOverlay').classList.add('open');
+  document.getElementById('confirmDialog').classList.add('open');
 }
-function cancelDelete(){deleteTargetId=null;document.getElementById('confirmOverlay').classList.remove('open');document.getElementById('confirmDialog').classList.remove('open')}
-async function doDelete(){
-  if(deleteTargetId){
+function cancelDelete() {
+  deleteTargetId = null;
+  document.getElementById('confirmOverlay').classList.remove('open');
+  document.getElementById('confirmDialog').classList.remove('open');
+}
+async function doDelete() {
+  if (deleteTargetId) {
     await dataDelete(deleteTargetId);
-    items=items.filter(i=>i.id!==deleteTargetId)
+    items = items.filter(i => i.id !== deleteTargetId);
   }
-  cancelDelete();closeSheet();renderList()
+  cancelDelete(); closeSheet(); renderList();
 }
 
-// Close menus on outside click
-document.addEventListener('click',e=>{
-  const sd=document.getElementById('sortDrop'),sb=document.getElementById('sortBtn');
-  if(!sd.contains(e.target)&&!sb.contains(e.target))sd.classList.remove('open');
-  const um=document.getElementById('userMenu'),ua=document.getElementById('userAvatar'),ub=document.getElementById('userBtn');
-  if(!um.contains(e.target)&&e.target!==ua&&e.target!==ub)um.classList.remove('open');
+// =====================================================================
+// CLOSE MENUS ON OUTSIDE CLICK
+// =====================================================================
+document.addEventListener('click', e => {
+  const sd = document.getElementById('sortDrop'), sb = document.getElementById('sortBtn');
+  if (!sd.contains(e.target) && !sb.contains(e.target)) sd.classList.remove('open');
+  const um = document.getElementById('userMenu'), ub = document.getElementById('userBtn');
+  if (!um.contains(e.target) && e.target !== ub) um.classList.remove('open');
 });
 
-// Online/offline detection
-window.addEventListener('online', () => {
-  showSyncBar('Back online — syncing...', 'syncing');
-  setTimeout(() => hideSyncBar(), 2000);
-});
-window.addEventListener('offline', () => {
-  showSyncBar('Offline — changes saved locally', 'offline');
-  setTimeout(() => hideSyncBar(), 3000);
-});
+// =====================================================================
+// ONLINE/OFFLINE
+// =====================================================================
+window.addEventListener('online', () => { showSyncBar('Back online — syncing...', 'syncing'); setTimeout(() => hideSyncBar(), 2000); });
+window.addEventListener('offline', () => { showSyncBar('Offline — changes saved locally', 'offline'); setTimeout(() => hideSyncBar(), 3000); });
+
+// =====================================================================
+// KEYBOARD / VIEWPORT HANDLING
+// =====================================================================
+function scrollIntoSheet(el) {
+  setTimeout(() => {
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 300);
+}
+
+(function setupViewportHandling() {
+  const fab = document.getElementById('fab');
+  const sheet = document.getElementById('sheet');
+
+  if (window.visualViewport) {
+    let initialHeight = window.visualViewport.height;
+
+    window.visualViewport.addEventListener('resize', () => {
+      const vh = window.visualViewport.height;
+      const ratio = vh / window.innerHeight;
+      if (ratio < 0.75) {
+        fab.classList.add('kb-hidden');
+        sheet.style.maxHeight = vh + 'px';
+      } else {
+        fab.classList.remove('kb-hidden');
+        sheet.style.maxHeight = '';
+      }
+    });
+
+    window.visualViewport.addEventListener('scroll', () => {
+      const offsetTop = window.visualViewport.offsetTop;
+      if (offsetTop > 0) {
+        sheet.style.bottom = -offsetTop + 'px';
+      } else {
+        sheet.style.bottom = '';
+      }
+    });
+  }
+})();
 
 // =====================================================================
 // INIT
 // =====================================================================
-async function init(){
-  // Always open local DB first
+async function init() {
   await openLocalDB();
   await loadFromLocal();
+  migrateAll();
+  saveAllToLocal();
   buildCatBar();
   buildCatGrid();
   renderList();
-
-  // Try Firebase
-  const fbOk = initFirebase();
-
-  // If no firebase or skipped auth, hide auth screen
-  if (!fbOk || localStorage.getItem('fm_skipped_auth')) {
-    document.getElementById('authScreen').classList.add('hidden');
-  }
-
-  // Service worker
-  if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+  initFirebase();
+  updateSyncUI();
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
 }
 init();
 </script>
