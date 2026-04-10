@@ -1,5 +1,5 @@
-const CACHE_NAME = 'fridgemate-v2';
-const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
+const CACHE_NAME = 'fridgemate-v3';
+const ASSETS = ['./', './index.html', './manifest.json', './icon-192-maskable.png', './icon-512-maskable.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(ASSETS)));
