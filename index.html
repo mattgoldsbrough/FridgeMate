@@ -170,7 +170,7 @@
     .card{
       background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
       padding:14px 14px 14px 18px;display:flex;align-items:center;gap:12px;
-      position:relative;overflow:hidden;transition:transform .22s cubic-bezier(.32,.72,0,1),border-color .15s,filter .2s ease;
+      position:relative;overflow:hidden;transition:transform .22s cubic-bezier(.32,.72,0,1),border-color .15s;
       z-index:1;width:100%
     }
     .card.swipe-surface.is-dragging{transition:none}
@@ -180,8 +180,11 @@
     .card.s-green::before{background:var(--green)}
     .card.s-amber::before{background:var(--amber)}
     .card.s-red::before{background:var(--red)}
-    /* Dim expired rows without opacity — opacity would show the swipe-delete layer behind the card */
-    .card.s-expired{filter:brightness(0.72) saturate(0.88)}
+    /* Fridge-only expired dim: opacity on row content only so the swipe layer does not show through */
+    .card.s-expired.l-fridge .ic,
+    .card.s-expired.l-fridge .info,
+    .card.s-expired.l-fridge .right,
+    .card.s-expired.l-fridge .actions{opacity:.55;transition:opacity .2s ease}
     .card.s-expired::before{background:var(--red)}
     .ic{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
     .card.l-fridge .ic{background:var(--fridge-bg)}
@@ -1109,7 +1112,9 @@ function renderList(){
   list.innerHTML=f.map(item=>{
     const soonest = itemSoonestExpiry(item);
     const st = expiryStatus(soonest);
-    const sc = st==='expired'?'s-expired s-red':`s-${st}`;
+    const sc = st==='expired'
+      ? (item.location==='fridge' ? 's-expired s-red' : 's-red')
+      : `s-${st}`;
     const el = expiryLabel(soonest);
     const ec = st==='expired'?'red':st;
     const totalQty = itemTotalQty(item);
