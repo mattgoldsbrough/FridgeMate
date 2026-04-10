@@ -930,61 +930,33 @@ function showSyncBar(msg, type) {
 function hideSyncBar() { document.getElementById('syncBar').classList.remove('show'); }
 
 // =====================================================================
-// APP UPDATE (service worker — new deploy)
+// APP UPDATE (service worker + cache)
 // =====================================================================
-let appUpdateReloadArmed = false;
-let appUpdateTimeoutId = null;
-
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.addEventListener('controllerchange', () => {
-    if (!appUpdateReloadArmed) return;
-    appUpdateReloadArmed = false;
-    if (appUpdateTimeoutId) {
-      clearTimeout(appUpdateTimeoutId);
-      appUpdateTimeoutId = null;
-    }
-    window.location.reload();
-  });
-}
-
+// registration.update() only sees a change when sw.js bytes change. HTML/CSS
+// edits alone do not install a new worker, so we also clear Cache Storage and
+// reload to pull a fresh index and assets from the network.
 async function checkForAppUpdate() {
-  if (!('serviceWorker' in navigator)) {
-    showSyncBar('App updates are not supported in this browser.', 'error');
-    setTimeout(hideSyncBar, 2500);
-    return;
-  }
-  const reg = await navigator.serviceWorker.getRegistration();
-  if (!reg) {
-    showSyncBar('App is still starting — try again in a moment.', 'error');
-    setTimeout(hideSyncBar, 2500);
-    return;
-  }
+  showSyncBar('Loading latest version…', 'syncing');
 
-  showSyncBar('Checking for app update…', 'syncing');
-
-  appUpdateReloadArmed = true;
-  if (appUpdateTimeoutId) {
-    clearTimeout(appUpdateTimeoutId);
-    appUpdateTimeoutId = null;
+  if ('serviceWorker' in navigator) {
+    try {
+      const reg = await navigator.serviceWorker.getRegistration();
+      if (reg) await reg.update();
+    } catch (err) {
+      showSyncBar('Could not reach the server — reloading saved copy…', 'offline');
+      setTimeout(hideSyncBar, 2200);
+    }
   }
-  appUpdateTimeoutId = setTimeout(() => {
-    appUpdateReloadArmed = false;
-    appUpdateTimeoutId = null;
-    showSyncBar('You already have the latest version.', 'syncing');
-    setTimeout(hideSyncBar, 2000);
-  }, 5000);
 
   try {
-    await reg.update();
+    const keys = await caches.keys();
+    await Promise.all(keys.map(k => caches.delete(k)));
   } catch (err) {
-    appUpdateReloadArmed = false;
-    if (appUpdateTimeoutId) {
-      clearTimeout(appUpdateTimeoutId);
-      appUpdateTimeoutId = null;
-    }
-    showSyncBar('Update check failed — try again when online.', 'error');
-    setTimeout(hideSyncBar, 3000);
+    /* ignore */
   }
+
+  await new Promise(r => setTimeout(r, 150));
+  window.location.reload();
 }
 
 // =====================================================================
