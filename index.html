@@ -152,8 +152,9 @@
     .card{
       background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
       padding:14px 14px 14px 18px;margin-bottom:8px;display:flex;align-items:center;gap:12px;
-      position:relative;overflow:hidden;transition:all .15s;animation:fadeIn .25s ease
+      position:relative;overflow:hidden;transition:all .15s
     }
+    .list-initial-load .card{animation:fadeIn .25s ease}
     @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
     .card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px}
     .card.s-green::before{background:var(--green)}
@@ -852,14 +853,30 @@ function subscribeToFirestore() {
   const col = getUserCollection();
   if (!col) return;
   if (unsubFirestore) { unsubFirestore(); unsubFirestore = null; }
-  showSyncBar('Syncing...', 'syncing');
+  let isFirstSnapshot = true;
   unsubFirestore = col.onSnapshot(snapshot => {
-    items = [];
-    snapshot.forEach(doc => { items.push(migrateItem({ id: doc.id, ...doc.data() })); });
-    saveAllToLocal();
-    renderList();
-    showSyncBar('Synced', 'syncing');
-    setTimeout(() => hideSyncBar(), 1500);
+    const newItems = [];
+    snapshot.forEach(doc => { newItems.push(migrateItem({ id: doc.id, ...doc.data() })); });
+
+    // Skip re-render if data hasn't changed vs what we already loaded from local
+    const changed = newItems.length !== items.length ||
+      newItems.some(n => {
+        const existing = items.find(i => i.id === n.id);
+        return !existing || JSON.stringify(existing) !== JSON.stringify(n);
+      });
+
+    if (changed) {
+      items = newItems;
+      saveAllToLocal();
+      renderList();
+    }
+
+    // Only show sync bar for background updates after first silent load
+    if (!isFirstSnapshot) {
+      showSyncBar('Synced ✓', 'syncing');
+      setTimeout(() => hideSyncBar(), 1200);
+    }
+    isFirstSnapshot = false;
   }, err => {
     console.error('Firestore error:', err);
     showSyncBar('Sync error — using local data', 'error');
@@ -1021,6 +1038,7 @@ function renderList(){
   });
 
   const list=document.getElementById('itemList');
+  if (!initialRenderDone) { list.classList.add('list-initial-load'); } else { list.classList.remove('list-initial-load'); }
   if(!f.length){
     list.innerHTML=`<div class="empty"><div class="ei">${search?'🔍':'🍽️'}</div><p>${search?'No items match your search':'Nothing here yet.<br>Tap + to add your first item.'}</p></div>`;
     updateStats();return
@@ -1278,6 +1296,8 @@ function scrollIntoSheet(el) {
 // =====================================================================
 // INIT
 // =====================================================================
+let initialRenderDone = false;
+
 async function init() {
   await openLocalDB();
   await loadFromLocal();
@@ -1286,6 +1306,7 @@ async function init() {
   buildCatBar();
   buildCatGrid();
   renderList();
+  initialRenderDone = true;
   initFirebase();
   updateSyncUI();
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
