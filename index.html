@@ -346,6 +346,14 @@
               <button id="linkBtn" onclick="linkDevice()">Link</button>
             </div>
           </div>
+          <div class="user-menu-section" id="transferSection" style="display:none">
+            <div class="user-menu-label">Transfer ownership</div>
+            <div class="link-input-row">
+              <input type="text" id="transferCodeInput" placeholder="New owner's code" maxlength="9" autocomplete="off" spellcheck="false">
+              <button id="transferBtn" onclick="startTransfer()">Transfer</button>
+            </div>
+            <div style="font-size:10px;color:var(--dim);margin-top:5px">Moves all data to another device's account</div>
+          </div>
           <div class="user-menu-section" style="border-bottom:0">
             <button class="user-menu-item" onclick="exportData();toggleUserMenu()">📤 Export data (JSON)</button>
           </div>
@@ -434,6 +442,17 @@
   </div>
 </div>
 
+<!-- CONFIRM TRANSFER -->
+<div class="overlay" id="transferOverlay" onclick="cancelTransfer()"></div>
+<div class="confirm-dialog" id="transferDialog">
+  <h3>Transfer ownership?</h3>
+  <p id="transferText">All data will be moved to the new device's account. All linked devices will automatically switch over.</p>
+  <div class="confirm-btns">
+    <button class="cbtn-cancel" onclick="cancelTransfer()">Cancel</button>
+    <button class="cbtn-delete" id="confirmTransferBtn" onclick="doTransfer()" style="background:var(--accent)">Transfer</button>
+  </div>
+</div>
+
 <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -456,10 +475,11 @@ const FIREBASE_CONFIG = {
 // CONSTANTS & STATE
 // =====================================================================
 const CATEGORIES=[
-  {id:'dairy',emoji:'🥛',label:'Dairy'},{id:'meat',emoji:'🥩',label:'Meat'},
+  {id:'dairy',emoji:'🧀',label:'Dairy'},{id:'meat',emoji:'🥩',label:'Meat'},
   {id:'veg',emoji:'🥬',label:'Veg'},{id:'fruit',emoji:'🍎',label:'Fruit'},
   {id:'drinks',emoji:'🥤',label:'Drinks'},{id:'leftovers',emoji:'🍱',label:'Leftovers'},
   {id:'condiments',emoji:'🫙',label:'Sauces'},{id:'bakery',emoji:'🍞',label:'Bakery'},
+  {id:'dessert',emoji:'🍰',label:'Dessert'},{id:'readymeal',emoji:'🍽️',label:'Ready Meal'},
   {id:'other',emoji:'📦',label:'Other'}
 ];
 
@@ -577,6 +597,20 @@ async function onAuthReady() {
   const storedSyncUid = localStorage.getItem('fm_sync_uid');
   syncUid = storedSyncUid || uid;
 
+  // Check if ownership was transferred away — follow the redirect
+  try {
+    const redirectDoc = await firebase.firestore().collection('syncRedirects').doc(syncUid).get();
+    if (redirectDoc.exists) {
+      const newUid = redirectDoc.data().newUid;
+      if (newUid && newUid !== syncUid) {
+        syncUid = newUid;
+        localStorage.setItem('fm_sync_uid', newUid);
+      }
+    }
+  } catch(e) {
+    console.warn('Could not check redirect:', e.message);
+  }
+
   // Register our sync code → UID mapping
   try {
     await firebase.firestore().collection('syncCodes').doc(mySyncCode).set({
@@ -662,24 +696,126 @@ async function linkDevice() {
 }
 
 // =====================================================================
+// TRANSFER OWNERSHIP — move data to a new primary device
+// =====================================================================
+let transferTargetUid = null;
+let transferTargetCode = null;
+
+function startTransfer() {
+  const input = document.getElementById('transferCodeInput');
+  const code = input.value.replace(/[-\s]/g, '').toUpperCase().trim();
+
+  if (code.length !== 8) {
+    input.style.borderColor = 'var(--red)';
+    setTimeout(() => input.style.borderColor = '', 1500);
+    return;
+  }
+
+  if (code === mySyncCode) {
+    showSyncBar("That's your own code!", 'error');
+    setTimeout(() => hideSyncBar(), 2000);
+    return;
+  }
+
+  transferTargetCode = code;
+  toggleUserMenu();
+  document.getElementById('transferOverlay').classList.add('open');
+  document.getElementById('transferDialog').classList.add('open');
+}
+
+function cancelTransfer() {
+  transferTargetUid = null;
+  transferTargetCode = null;
+  document.getElementById('transferOverlay').classList.remove('open');
+  document.getElementById('transferDialog').classList.remove('open');
+}
+
+async function doTransfer() {
+  const btn = document.getElementById('confirmTransferBtn');
+  btn.disabled = true;
+  btn.textContent = '...';
+
+  try {
+    // Look up the target sync code
+    const codeDoc = await firebase.firestore().collection('syncCodes').doc(transferTargetCode).get();
+    if (!codeDoc.exists) {
+      showSyncBar('Code not found — check and try again', 'error');
+      setTimeout(() => hideSyncBar(), 3000);
+      cancelTransfer();
+      btn.disabled = false;
+      btn.textContent = 'Transfer';
+      return;
+    }
+
+    transferTargetUid = codeDoc.data().uid;
+    const db = firebase.firestore();
+    const oldCol = db.collection('users').doc(syncUid).collection('items');
+    const newCol = db.collection('users').doc(transferTargetUid).collection('items');
+
+    // Copy all items to the new owner's collection
+    const snapshot = await oldCol.get();
+    if (!snapshot.empty) {
+      const batch = db.batch();
+      snapshot.forEach(doc => {
+        batch.set(newCol.doc(doc.id), doc.data());
+      });
+      await batch.commit();
+    }
+
+    // Write a redirect doc so all linked devices find the new owner
+    // Any device pointing to the old syncUid will check this and switch
+    await db.collection('syncRedirects').doc(syncUid).set({
+      newUid: transferTargetUid,
+      transferredAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    // Switch this device to the new owner
+    syncUid = transferTargetUid;
+    localStorage.setItem('fm_sync_uid', transferTargetUid);
+
+    if (unsubFirestore) { unsubFirestore(); unsubFirestore = null; }
+    subscribeToFirestore();
+    updateSyncUI();
+
+    document.getElementById('transferCodeInput').value = '';
+    cancelTransfer();
+    showSyncBar('Ownership transferred!', 'syncing');
+    setTimeout(() => hideSyncBar(), 2500);
+
+  } catch(e) {
+    console.error('Transfer failed:', e);
+    showSyncBar('Transfer failed — try again', 'error');
+    setTimeout(() => hideSyncBar(), 3000);
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Transfer';
+}
+
+// =====================================================================
 // SYNC UI
 // =====================================================================
 function updateSyncUI() {
   const codeEl = document.getElementById('syncCodeText');
   const statusEl = document.getElementById('syncStatusText');
   const userBtn = document.getElementById('userBtn');
+  const transferSection = document.getElementById('transferSection');
 
   if (firebaseReady && currentUser) {
     codeEl.textContent = formatCodeDisplay(mySyncCode);
-    const isLinked = syncUid && syncUid !== currentUser.uid;
+    const isPrimary = syncUid === currentUser.uid;
+    const isLinked = syncUid && !isPrimary;
     statusEl.innerHTML = isLinked
       ? '<span class="dot green"></span> Linked &amp; syncing'
       : '<span class="dot green"></span> Syncing';
     userBtn.classList.add('synced');
+    // Only the primary owner can transfer
+    transferSection.style.display = isPrimary ? '' : 'none';
   } else {
     codeEl.textContent = '--------';
     statusEl.innerHTML = '<span class="dot grey"></span> Offline mode';
     userBtn.classList.remove('synced');
+    transferSection.style.display = 'none';
   }
 }
 
