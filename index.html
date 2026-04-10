@@ -375,6 +375,10 @@
             </div>
             <div style="font-size:10px;color:var(--dim);margin-top:5px">Moves all data to another device's account</div>
           </div>
+          <div class="user-menu-section">
+            <div class="user-menu-label">App updates</div>
+            <button type="button" class="user-menu-item" onclick="checkForAppUpdate();toggleUserMenu()">🔄 Get latest app</button>
+          </div>
           <div class="user-menu-section" style="border-bottom:0">
             <button class="user-menu-item" onclick="exportData();toggleUserMenu()">📤 Export data (JSON)</button>
           </div>
@@ -925,6 +929,64 @@ function showSyncBar(msg, type) {
 function hideSyncBar() { document.getElementById('syncBar').classList.remove('show'); }
 
 // =====================================================================
+// APP UPDATE (service worker — new deploy)
+// =====================================================================
+let appUpdateReloadArmed = false;
+let appUpdateTimeoutId = null;
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!appUpdateReloadArmed) return;
+    appUpdateReloadArmed = false;
+    if (appUpdateTimeoutId) {
+      clearTimeout(appUpdateTimeoutId);
+      appUpdateTimeoutId = null;
+    }
+    window.location.reload();
+  });
+}
+
+async function checkForAppUpdate() {
+  if (!('serviceWorker' in navigator)) {
+    showSyncBar('App updates are not supported in this browser.', 'error');
+    setTimeout(hideSyncBar, 2500);
+    return;
+  }
+  const reg = await navigator.serviceWorker.getRegistration();
+  if (!reg) {
+    showSyncBar('App is still starting — try again in a moment.', 'error');
+    setTimeout(hideSyncBar, 2500);
+    return;
+  }
+
+  showSyncBar('Checking for app update…', 'syncing');
+
+  appUpdateReloadArmed = true;
+  if (appUpdateTimeoutId) {
+    clearTimeout(appUpdateTimeoutId);
+    appUpdateTimeoutId = null;
+  }
+  appUpdateTimeoutId = setTimeout(() => {
+    appUpdateReloadArmed = false;
+    appUpdateTimeoutId = null;
+    showSyncBar('You already have the latest version.', 'syncing');
+    setTimeout(hideSyncBar, 2000);
+  }, 5000);
+
+  try {
+    await reg.update();
+  } catch (err) {
+    appUpdateReloadArmed = false;
+    if (appUpdateTimeoutId) {
+      clearTimeout(appUpdateTimeoutId);
+      appUpdateTimeoutId = null;
+    }
+    showSyncBar('Update check failed — try again when online.', 'error');
+    setTimeout(hideSyncBar, 3000);
+  }
+}
+
+// =====================================================================
 // LOCAL INDEXEDDB
 // =====================================================================
 function openLocalDB() {
@@ -1430,7 +1492,9 @@ async function init() {
   initialRenderDone = true;
   initFirebase();
   updateSyncUI();
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).catch(() => {});
+  }
 }
 init();
 </script>
