@@ -148,13 +148,33 @@
     .cpill.active{background:var(--accent-g);border-color:var(--accent);color:var(--accent)}
     .list{padding:6px 20px;padding-bottom:calc(90px + var(--sab))}
 
+    /* === SWIPE ROW (reveal delete) === */
+    .swipe-host{
+      position:relative;overflow:hidden;border-radius:var(--r);margin-bottom:8px;
+      touch-action:pan-y
+    }
+    .swipe-reveal{
+      position:absolute;inset:0;display:flex;justify-content:flex-end;align-items:stretch;
+      background:var(--surface2);pointer-events:none;z-index:0
+    }
+    .swipe-host.open .swipe-reveal{pointer-events:auto}
+    .swipe-del-btn{
+      min-width:88px;padding:0 14px;border:0;border-radius:0 var(--r) var(--r) 0;
+      background:var(--red);color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;
+      font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;
+      flex-shrink:0;transition:opacity .12s
+    }
+    .swipe-del-btn:active{opacity:.92}
+
     /* === ITEM CARDS === */
     .card{
       background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
-      padding:14px 14px 14px 18px;margin-bottom:8px;display:flex;align-items:center;gap:12px;
-      position:relative;overflow:hidden;transition:all .15s
+      padding:14px 14px 14px 18px;display:flex;align-items:center;gap:12px;
+      position:relative;overflow:hidden;transition:transform .22s cubic-bezier(.32,.72,0,1),border-color .15s,opacity .15s;
+      z-index:1;width:100%
     }
-    .list-initial-load .card{animation:fadeIn .25s ease}
+    .card.swipe-surface.is-dragging{transition:none}
+    .list-initial-load .swipe-host .card{animation:fadeIn .25s ease}
     @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
     .card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px}
     .card.s-green::before{background:var(--green)}
@@ -1038,6 +1058,13 @@ function renderList(){
   });
 
   const list=document.getElementById('itemList');
+  if (swipeState) {
+    window.removeEventListener('pointermove', swipeMoveHandler);
+    window.removeEventListener('pointerup', swipeEndHandler);
+    window.removeEventListener('pointercancel', swipeEndHandler);
+    swipeState = null;
+  }
+  openSwipeHost = null;
   if (!initialRenderDone) { list.classList.add('list-initial-load'); } else { list.classList.remove('list-initial-load'); }
   if(!f.length){
     list.innerHTML=`<div class="empty"><div class="ei">${search?'🔍':'🍽️'}</div><p>${search?'No items match your search':'Nothing here yet.<br>Tap + to add your first item.'}</p></div>`;
@@ -1053,21 +1080,114 @@ function renderList(){
     const totalQty = itemTotalQty(item);
     const summary = itemBatchSummary(item);
 
-    return`<div class="card ${sc} l-${item.location}">
-      <div class="ic">${getCatEmoji(item.category)}</div>
-      <div class="info">
-        <div class="name">${escHtml(item.name)}</div>
-        <div class="meta"><span class="loc-tag ${item.location}">${item.location==='fridge'?'❄️ Fridge':'🧊 Freezer'}</span>${soonest?`<span>${formatDate(soonest)}</span>`:''}</div>
-        ${summary?`<div class="batch-summary">${escHtml(summary)}</div>`:''}
+    return`<div class="swipe-host" data-item-id="${item.id}">
+      <div class="swipe-reveal" aria-hidden="true">
+        <button type="button" class="swipe-del-btn" onclick="quickDelete('${item.id}')">Delete</button>
       </div>
-      <div class="right"><div class="qty">×${totalQty}</div><div class="exp ${ec}">${el}</div></div>
-      <div class="actions">
-        <button class="abtn" onclick="editItem('${item.id}')" title="Edit"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
-        <button class="abtn del" onclick="quickDelete('${item.id}')" title="Delete"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+      <div class="card swipe-surface ${sc} l-${item.location}">
+        <div class="ic">${getCatEmoji(item.category)}</div>
+        <div class="info">
+          <div class="name">${escHtml(item.name)}</div>
+          <div class="meta"><span class="loc-tag ${item.location}">${item.location==='fridge'?'❄️ Fridge':'🧊 Freezer'}</span>${soonest?`<span>${formatDate(soonest)}</span>`:''}</div>
+          ${summary?`<div class="batch-summary">${escHtml(summary)}</div>`:''}
+        </div>
+        <div class="right"><div class="qty">×${totalQty}</div><div class="exp ${ec}">${el}</div></div>
+        <div class="actions">
+          <button class="abtn" onclick="editItem('${item.id}')" title="Edit"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+          <button class="abtn del" onclick="quickDelete('${item.id}')" title="Delete"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+        </div>
       </div>
     </div>`
   }).join('');
   updateStats()
+}
+
+// =====================================================================
+// LIST SWIPE (reveal delete — swipe content right→left)
+// =====================================================================
+const SWIPE_DELETE_W = 88;
+let openSwipeHost = null;
+let swipeState = null;
+
+function swipeGetTx(pane) {
+  const m = (pane.style.transform || '').match(/translateX\((-?[0-9.]+)px\)/);
+  return m ? parseFloat(m[1], 10) : 0;
+}
+function swipeSetTx(pane, tx) {
+  pane.style.transform = tx === 0 ? '' : `translateX(${tx}px)`;
+}
+function closeOpenSwipeRow() {
+  if (!openSwipeHost) return;
+  const pane = openSwipeHost.querySelector('.swipe-surface');
+  openSwipeHost.classList.remove('open');
+  openSwipeHost = null;
+  if (pane) {
+    pane.classList.remove('is-dragging');
+    swipeSetTx(pane, 0);
+  }
+}
+function swipeMoveHandler(e) {
+  if (!swipeState || e.pointerId !== swipeState.pointerId) return;
+  const dx = e.clientX - swipeState.startX;
+  const dy = e.clientY - swipeState.startY;
+  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 8) e.preventDefault();
+  let tx = swipeState.startTx + dx;
+  if (tx > 0) tx = 0;
+  if (tx < -SWIPE_DELETE_W) tx = -SWIPE_DELETE_W;
+  swipeSetTx(swipeState.pane, tx);
+  swipeState.moved = swipeState.moved || Math.abs(dx) > 6;
+}
+function swipeEndHandler(e) {
+  if (!swipeState || e.pointerId !== swipeState.pointerId) return;
+  window.removeEventListener('pointermove', swipeMoveHandler);
+  window.removeEventListener('pointerup', swipeEndHandler);
+  window.removeEventListener('pointercancel', swipeEndHandler);
+  const { pane, host } = swipeState;
+  swipeState = null;
+  pane.classList.remove('is-dragging');
+  const tx = swipeGetTx(pane);
+  const shouldOpen = tx < -SWIPE_DELETE_W / 2;
+  const finalTx = shouldOpen ? -SWIPE_DELETE_W : 0;
+  swipeSetTx(pane, finalTx);
+  if (shouldOpen) {
+    if (openSwipeHost && openSwipeHost !== host) closeOpenSwipeRow();
+    openSwipeHost = host;
+    host.classList.add('open');
+  } else {
+    host.classList.remove('open');
+    if (openSwipeHost === host) openSwipeHost = null;
+  }
+}
+function setupListSwipe() {
+  const list = document.getElementById('itemList');
+  list.addEventListener('pointerdown', e => {
+    if (e.button !== 0 && e.pointerType === 'mouse') return;
+    const pane = e.target.closest('.swipe-surface');
+    if (!pane || !list.contains(pane)) return;
+    if (e.target.closest('.abtn')) return;
+    const host = pane.closest('.swipe-host');
+    if (!host) return;
+    if (openSwipeHost && openSwipeHost !== host) closeOpenSwipeRow();
+    swipeState = {
+      pane,
+      host,
+      pointerId: e.pointerId,
+      startX: e.clientX,
+      startY: e.clientY,
+      startTx: swipeGetTx(pane),
+      moved: false
+    };
+    pane.classList.add('is-dragging');
+    window.addEventListener('pointermove', swipeMoveHandler, { passive: false });
+    window.addEventListener('pointerup', swipeEndHandler);
+    window.addEventListener('pointercancel', swipeEndHandler);
+  });
+  document.addEventListener('pointerdown', e => {
+    if (!openSwipeHost) return;
+    const h = e.target.closest('.swipe-host');
+    if (h === openSwipeHost) return;
+    closeOpenSwipeRow();
+  }, true);
 }
 
 function updateStats(){
@@ -1306,6 +1426,7 @@ async function init() {
   buildCatBar();
   buildCatGrid();
   renderList();
+  setupListSwipe();
   initialRenderDone = true;
   initFirebase();
   updateSyncUI();
