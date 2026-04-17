@@ -354,6 +354,229 @@
     }
     .add-batch-btn:active{border-color:var(--accent);color:var(--accent)}
     .batch-label{font-size:11px;color:var(--dim);margin-bottom:4px;font-weight:600}
+
+    /* === APP SHELL (full redesign navigation) === */
+    .app-frame{
+      min-height:100dvh;display:flex;flex-direction:column;
+      padding-bottom:calc(72px + var(--sab))
+    }
+    .view-root{flex:1;display:flex;flex-direction:column;min-height:0;position:relative}
+    .scroll-page{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+
+    .global-user-wrap{
+      position:fixed;top:10px;right:16px;z-index:120;
+      padding-top:env(safe-area-inset-top,0px)
+    }
+    .global-user-wrap .user-menu{right:0;left:auto}
+
+    .page-header{
+      padding:10px 20px 14px;flex-shrink:0;display:flex;align-items:center;gap:12px
+    }
+    .page-header .ph-main{flex:1;min-width:0}
+    .page-header .ph-sub{
+      font-size:10px;font-weight:700;color:var(--ink-faint);text-transform:uppercase;letter-spacing:1.1px;margin-bottom:2px
+    }
+    .page-header .ph-title{
+      font-family:var(--font-display);font-size:26px;font-weight:500;color:var(--ink);letter-spacing:-0.4px;line-height:1.05
+    }
+    .icon-btn{
+      width:38px;height:38px;border:0;border-radius:12px;background:var(--paper-soft);
+      border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+      cursor:pointer;color:var(--ink);flex-shrink:0;padding:0;transition:background .15s
+    }
+    .icon-btn:active{background:var(--paper-deep)}
+
+    .avatar-stack{display:flex;align-items:center}
+    .avatar-stack .av{
+      width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+      font-size:11px;font-weight:700;color:#fff;border:2px solid var(--paper);box-sizing:border-box;margin-left:-6px
+    }
+    .avatar-stack .av:first-child{margin-left:0}
+
+    .stat-pill-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;padding:0 20px}
+    .stat-pill{
+      padding:12px 14px;border-radius:18px;border:0;cursor:pointer;text-align:left;width:100%;
+      display:flex;align-items:center;gap:10px;font-family:var(--font-body),sans-serif;
+      box-shadow:0 1px 0 rgba(0,0,0,0.04),inset 0 1px 0 rgba(255,255,255,0.4)
+    }
+    .stat-pill.fridge{background:var(--fridge-soft)}
+    .stat-pill.freezer{background:var(--freezer-soft)}
+    .stat-pill .spi{
+      width:34px;height:34px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0
+    }
+    .stat-pill.fridge .spi{background:var(--fridge)}
+    .stat-pill.freezer .spi{background:var(--freezer)}
+    .stat-pill .sp-count{font-size:20px;font-weight:800;font-family:var(--font-display);line-height:1}
+    .stat-pill.fridge .sp-count{color:var(--fridge)}
+    .stat-pill.freezer .sp-count{color:var(--freezer)}
+    .stat-pill .sp-lbl{font-size:11px;font-weight:600;color:var(--ink-soft);text-transform:uppercase;letter-spacing:0.8px;margin-top:2px}
+
+    .sec-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px;padding:0 20px}
+    .sec-head h3{
+      font-family:var(--font-display);font-size:19px;font-weight:500;color:var(--ink);margin:0;letter-spacing:-0.3px
+    }
+    .sec-head .sec-count{
+      font-size:12px;font-weight:700;padding:2px 8px;border-radius:10px
+    }
+    .sec-head .sec-count.accent{background:var(--urgent-soft);color:var(--urgent)}
+    .sec-head .sec-sub{font-size:11.5px;color:var(--ink-faint);font-weight:500}
+
+    .urgent-rail{display:flex;gap:10px;overflow-x:auto;margin:0 0 20px;padding:2px 20px 10px;scrollbar-width:none}
+    .urgent-rail::-webkit-scrollbar{display:none}
+    .urgent-card{
+      flex-shrink:0;width:132px;border:0;padding:12px;border-radius:20px;cursor:pointer;text-align:left;
+      background:var(--paper-soft);box-shadow:inset 0 0 0 1px var(--line);
+      font-family:var(--font-body),sans-serif
+    }
+    .urgent-card .uc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+    .urgent-card .uc-ic{width:40px;height:40px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px}
+    .urgent-card .uc-pill{padding:3px 7px;border-radius:10px;font-size:10.5px;font-weight:700;white-space:nowrap}
+    .urgent-card .uc-name{font-size:13.5px;font-weight:700;color:var(--ink);line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .urgent-card .uc-meta{font-size:11px;color:var(--ink-faint);margin-top:2px}
+
+    .cat-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 20px 20px}
+    .cat-tile{
+      height:112px;padding:14px;border:0;border-radius:22px;cursor:pointer;text-align:left;position:relative;overflow:hidden;
+      display:flex;flex-direction:column;justify-content:space-between;font-family:var(--font-body),sans-serif;
+      box-shadow:0 2px 0 rgba(0,0,0,0.06),inset 0 1px 0 rgba(255,255,255,0.4);color:var(--ink)
+    }
+    .cat-tile .ct-emoji{font-size:40px;line-height:1}
+    .cat-tile .ct-label{font-size:15px;font-weight:700;letter-spacing:-0.2px}
+    .cat-tile .ct-meta{font-size:11.5px;font-weight:600;color:var(--ink-soft);margin-top:1px;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+    .cat-tile .ct-soon{background:var(--urgent);color:#fff;border-radius:10px;padding:1px 6px;font-size:10px;font-weight:700}
+
+    .bottom-nav{
+      position:fixed;left:0;right:0;bottom:0;z-index:95;
+      background:var(--paper-soft);border-top:1px solid var(--line);
+      padding:10px 16px calc(10px + var(--sab));display:flex;justify-content:space-between;align-items:center
+    }
+    .bn-tab{
+      border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;
+      color:var(--ink-faint);padding:4px 8px;font-family:var(--font-body),sans-serif;font-size:10.5px;font-weight:600
+    }
+    .bn-tab svg{opacity:.85}
+    .bn-tab.on{color:var(--ink)}
+    .bn-spacer{width:56px;flex-shrink:0}
+    .bn-fab-wrap{position:relative;width:56px;flex-shrink:0}
+    .bn-fab{
+      position:absolute;left:50%;top:-22px;transform:translateX(-50%);
+      width:58px;height:58px;border-radius:22px;border:4px solid var(--paper-deep);
+      background:var(--accent);color:#fff;font-size:28px;font-weight:300;line-height:1;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+      box-shadow:0 8px 20px -4px rgba(255,90,60,0.45),0 2px 6px rgba(26,22,18,0.1)
+    }
+    .bn-fab:active{transform:translateX(-50%) scale(.92)}
+    .bn-fab.kb-hidden{opacity:0;pointer-events:none;transform:translateX(-50%) scale(.5)}
+
+    .cat-hero{
+      padding:12px 20px 24px;border-radius:0 0 28px 28px;flex-shrink:0
+    }
+    .cat-hero-top{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+    .cat-hero-big{display:flex;align-items:center;gap:14px}
+    .cat-hero-emoji{font-size:56px;line-height:1}
+    .cat-hero-title{font-family:var(--font-display);font-size:30px;font-weight:500;color:var(--ink);letter-spacing:-0.5px;line-height:1}
+    .cat-hero-meta{font-size:13px;color:var(--ink-soft);font-weight:600;margin-top:4px}
+
+    .sub-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding:0 20px}
+    .sub-head .sh-line{flex:1;height:1px;background:var(--line)}
+    .sub-head .sh-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;display:flex;align-items:center;gap:6px}
+    .sub-head .sh-n{font-size:12px;font-weight:600;color:var(--ink-faint)}
+
+    .loc-hero{padding:12px 20px 22px;border-radius:0 0 28px 28px;flex-shrink:0}
+    .loc-hero-ic{
+      width:60px;height:60px;border-radius:20px;display:flex;align-items:center;justify-content:center;color:#fff;
+      box-shadow:0 4px 10px rgba(0,0,0,0.1)
+    }
+    .loc-hero-row{display:flex;align-items:center;gap:14px}
+    .filter-pill-row{display:flex;gap:6px;overflow-x:auto;padding:0 20px 12px;scrollbar-width:none}
+    .filter-pill-row::-webkit-scrollbar{display:none}
+    .filter-pill{
+      flex-shrink:0;padding:8px 13px;border-radius:999px;border:0;cursor:pointer;font-family:var(--font-body),sans-serif;
+      font-size:12.5px;font-weight:600;display:flex;align-items:center;background:var(--paper-soft);
+      color:var(--ink-soft);box-shadow:inset 0 0 0 1px var(--line)
+    }
+    .filter-pill.on{background:var(--ink);color:var(--paper);box-shadow:none}
+    .loc-sort-row{display:flex;align-items:center;justify-content:space-between;padding:0 20px 10px}
+    .loc-sort-btns{display:flex;gap:4px}
+    .loc-sort-btns button{
+      padding:5px 10px;border-radius:10px;border:0;cursor:pointer;font-family:var(--font-body),sans-serif;
+      font-size:11.5px;font-weight:700;background:transparent;color:var(--ink-soft)
+    }
+    .loc-sort-btns button.on{background:var(--ink);color:var(--paper)}
+
+    .items-tab-tools{padding:12px 20px 6px;display:flex;gap:10px}
+    .items-tab-tools .search-wrap{flex:1}
+
+    .hero-card-dark{
+      background:var(--ink);color:var(--paper);border-radius:26px;padding:20px;margin:0 20px 14px;position:relative;overflow:hidden
+    }
+    .hero-card-dark .hc-accent{color:var(--accent);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;display:flex;align-items:center;gap:6px;margin-bottom:8px}
+    .hero-card-dark .hc-title{font-family:var(--font-display);font-size:26px;font-weight:500;line-height:1.1;letter-spacing:-0.5px}
+    .hero-card-dark .hc-pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
+    .hero-card-dark .hc-pill{
+      padding:6px 10px;border-radius:12px;background:rgba(255,255,255,0.1);font-size:12px;font-weight:600;display:flex;align-items:center;gap:5px
+    }
+    .mini-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 20px 16px}
+    .mini-stat{border-radius:18px;padding:14px}
+    .mini-stat .ms-l{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;opacity:.85}
+    .mini-stat .ms-v{font-family:var(--font-display);font-size:28px;font-weight:500;margin-top:4px;line-height:1}
+
+    .shelf-seg{padding:0 20px 14px;flex-shrink:0}
+    .shelf-seg-inner{display:flex;background:var(--paper-deep);border-radius:16px;padding:4px}
+    .shelf-seg button{
+      flex:1;padding:10px 12px;border:0;border-radius:12px;cursor:pointer;font-family:var(--font-body),sans-serif;
+      font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px;background:transparent;color:var(--ink-soft)
+    }
+    .shelf-seg button.on{background:var(--paper-soft);box-shadow:0 1px 2px rgba(0,0,0,0.06)}
+    .shelf-seg button.on.fridge{color:var(--fridge)}
+    .shelf-seg button.on.freezer{color:var(--freezer)}
+    .shelf-wrap{margin:4px 16px 20px;border-radius:22px;padding:10px;box-shadow:inset 0 0 0 2px var(--line),inset 0 4px 8px rgba(0,0,0,0.04)}
+    .shelf-wrap.fridge{background:var(--fridge-soft)}
+    .shelf-wrap.freezer{background:var(--freezer-soft)}
+    .shelf-row{margin-bottom:10px}
+    .shelf-row:last-child{margin-bottom:0}
+    .shelf-label{font-size:10px;font-weight:700;color:var(--ink-faint);text-transform:uppercase;letter-spacing:1.2px;padding:4px 6px 6px}
+    .shelf-surface{
+      background:var(--paper-soft);border-radius:14px;padding:10px;min-height:72px;display:flex;flex-wrap:wrap;gap:6px;align-items:flex-start;
+      box-shadow:inset 0 -3px 0 rgba(0,0,0,0.06),0 1px 0 rgba(255,255,255,0.8)
+    }
+    .shelf-chip{
+      border:0;border-radius:999px;padding:6px 10px;cursor:pointer;font-family:var(--font-body),sans-serif;font-size:12px;font-weight:600;
+      display:flex;align-items:center;gap:5px;background:var(--paper);box-shadow:0 1px 2px rgba(0,0,0,0.06);color:var(--ink)
+    }
+    .shelf-chip .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+    .crew-card-dark{border-radius:24px;padding:20px;margin:0 20px 16px;background:var(--ink);color:var(--paper);position:relative;overflow:hidden}
+    .crew-invite{
+      background:var(--paper-soft);border-radius:22px;padding:18px;margin:0 20px 16px;box-shadow:inset 0 0 0 1px var(--line)
+    }
+    .crew-invite code{font-family:var(--font-mono);font-size:18px;font-weight:700;color:var(--accent);letter-spacing:2px}
+
+    .detail-hero{border-radius:28px;padding:28px 20px 22px;display:flex;flex-direction:column;align-items:center;gap:10px;margin:0 20px 20px;text-align:center;box-shadow:0 2px 0 rgba(0,0,0,0.05),inset 0 1px 0 rgba(255,255,255,0.4)}
+    .detail-hero .dh-emoji{font-size:72px;line-height:1}
+    .detail-hero .dh-name{font-family:var(--font-display);font-size:28px;font-weight:500;color:var(--ink);letter-spacing:-0.5px;line-height:1.1}
+    .detail-chips{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+    .chip{
+      display:inline-flex;align-items:center;gap:4px;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:600;font-family:var(--font-body),sans-serif
+    }
+    .chip.def{background:var(--paper-deep);color:var(--ink-soft)}
+    .chip.fridge{background:var(--fridge-soft);color:var(--fridge)}
+    .chip.freezer{background:var(--freezer-soft);color:var(--freezer)}
+    .exp-banner{border-radius:20px;padding:16px 18px;display:flex;align-items:center;gap:14px;margin:0 20px 16px}
+    .batch-detail-row{
+      background:var(--paper-soft);border-radius:16px;padding:12px 14px;margin:0 20px 8px;display:flex;align-items:center;gap:12px;
+      box-shadow:inset 0 0 0 1px var(--line)
+    }
+    .batch-detail-row .bd-q{
+      width:38px;height:38px;border-radius:12px;background:var(--paper-deep);display:flex;align-items:center;justify-content:center;
+      font-family:var(--font-display);font-size:18px;font-weight:600;color:var(--ink)
+    }
+    .detail-actions{display:flex;gap:8px;padding:8px 20px 24px}
+    .detail-actions .btn-ink{flex:1;padding:14px;border-radius:16px;border:0;background:var(--ink);color:var(--paper);font-weight:700;cursor:pointer;font-family:var(--font-body),sans-serif;font-size:14px}
+    .detail-actions .btn-toss{padding:14px 16px;border-radius:16px;border:1.5px solid var(--urgent);background:transparent;color:var(--urgent);font-weight:700;cursor:pointer;font-family:var(--font-body),sans-serif;font-size:14px}
+
+    .cook-placeholder{padding:40px 24px;text-align:center;color:var(--ink-soft)}
+    .cook-placeholder h2{font-family:var(--font-display);font-size:22px;color:var(--ink);margin-bottom:8px}
   </style>
 </head>
 <body>
@@ -361,63 +584,51 @@
 <!-- SYNC STATUS -->
 <div class="sync-bar" id="syncBar"></div>
 
-<!-- HEADER -->
-<div class="header">
-  <div class="header-top">
-    <div>
-      <div class="header-sub">Inventory</div>
-      <div class="logo">Fridge<span>Mate</span></div>
-    </div>
-    <div class="header-right">
-      <div class="header-stats">
-        <span><b id="totalCount">0</b> items</span>
-        <span class="warn" id="expiringWarn" style="display:none">⚠ <b id="expiringCount">0</b> expiring</span>
-      </div>
-      <div style="position:relative">
-        <button class="user-btn" id="userBtn" onclick="toggleUserMenu()">🔗</button>
-        <div class="user-menu" id="userMenu">
-          <div class="user-menu-section">
-            <div class="user-menu-label">Your sync code</div>
-            <div class="sync-code-display">
-              <code id="syncCodeText">--------</code>
-              <button class="copy-btn" id="copyCodeBtn" onclick="copySyncCode()" title="Copy code">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-              </button>
-            </div>
-            <div class="sync-status-text" id="syncStatusText">
-              <span class="dot grey"></span> Offline mode
-            </div>
-          </div>
-          <div class="user-menu-section">
-            <div class="user-menu-label">Link another device</div>
-            <div class="link-input-row">
-              <input type="text" id="linkCodeInput" placeholder="Enter code" maxlength="9" autocomplete="off" spellcheck="false">
-              <button id="linkBtn" onclick="linkDevice()">Link</button>
-            </div>
-          </div>
-          <div class="user-menu-section" id="transferSection" style="display:none">
-            <div class="user-menu-label">Transfer ownership</div>
-            <div class="link-input-row">
-              <input type="text" id="transferCodeInput" placeholder="New owner's code" maxlength="9" autocomplete="off" spellcheck="false">
-              <button id="transferBtn" onclick="startTransfer()">Transfer</button>
-            </div>
-            <div style="font-size:10px;color:var(--dim);margin-top:5px">Moves all data to another device's account</div>
-          </div>
-          <div class="user-menu-section">
-            <div class="user-menu-label">App updates</div>
-            <button type="button" class="user-menu-item" onclick="checkForAppUpdate();toggleUserMenu()">🔄 Get latest app</button>
-          </div>
-          <div class="user-menu-section" style="border-bottom:0">
-            <button class="user-menu-item" onclick="exportData();toggleUserMenu()">📤 Export data (JSON)</button>
-          </div>
+<div class="global-user-wrap">
+  <div style="position:relative">
+    <button type="button" class="user-btn" id="userBtn" onclick="toggleUserMenu()">🔗</button>
+    <div class="user-menu" id="userMenu">
+      <div class="user-menu-section">
+        <div class="user-menu-label">Your sync code</div>
+        <div class="sync-code-display">
+          <code id="syncCodeText">--------</code>
+          <button type="button" class="copy-btn" id="copyCodeBtn" onclick="copySyncCode()" title="Copy code">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+        </div>
+        <div class="sync-status-text" id="syncStatusText">
+          <span class="dot grey"></span> Offline mode
         </div>
       </div>
+      <div class="user-menu-section">
+        <div class="user-menu-label">Link another device</div>
+        <div class="link-input-row">
+          <input type="text" id="linkCodeInput" placeholder="Enter code" maxlength="9" autocomplete="off" spellcheck="false">
+          <button type="button" id="linkBtn" onclick="linkDevice()">Link</button>
+        </div>
+      </div>
+      <div class="user-menu-section" id="transferSection" style="display:none">
+        <div class="user-menu-label">Transfer ownership</div>
+        <div class="link-input-row">
+          <input type="text" id="transferCodeInput" placeholder="New owner's code" maxlength="9" autocomplete="off" spellcheck="false">
+          <button type="button" id="transferBtn" onclick="startTransfer()">Transfer</button>
+        </div>
+        <div style="font-size:10px;color:var(--dim);margin-top:5px">Moves all data to another device's account</div>
+      </div>
+      <div class="user-menu-section">
+        <div class="user-menu-label">Home screen layout</div>
+        <button type="button" class="user-menu-item" onclick="setHomeLayout('pantry');toggleUserMenu();">Pantry — category grid</button>
+        <button type="button" class="user-menu-item" onclick="setHomeLayout('shelf');toggleUserMenu();">Shelf — visual fridge</button>
+        <button type="button" class="user-menu-item" onclick="setHomeLayout('digest');toggleUserMenu();">Digest — dashboard</button>
+      </div>
+      <div class="user-menu-section">
+        <div class="user-menu-label">App updates</div>
+        <button type="button" class="user-menu-item" onclick="checkForAppUpdate();toggleUserMenu()">🔄 Get latest app</button>
+      </div>
+      <div class="user-menu-section" style="border-bottom:0">
+        <button type="button" class="user-menu-item" onclick="exportData();toggleUserMenu()">📤 Export data (JSON)</button>
+      </div>
     </div>
-  </div>
-  <div class="tabs">
-    <button class="tab active" data-loc="all" onclick="setTab(this)">All <span class="badge" id="badgeAll">0</span></button>
-    <button class="tab" data-loc="fridge" onclick="setTab(this)">❄️ Fridge <span class="badge" id="badgeFridge">0</span></button>
-    <button class="tab" data-loc="freezer" onclick="setTab(this)">🧊 Freezer <span class="badge" id="badgeFreezer">0</span></button>
   </div>
 </div>
 
@@ -425,33 +636,33 @@
 <div class="setup-banner" id="setupBanner" style="display:none">
   <b>⚙️ Firebase not configured yet</b>
   You're running in offline-only mode. To enable cross-device sync, add your Firebase config to the <code>FIREBASE_CONFIG</code> object in index.html.
-  <br><button class="dismiss" onclick="this.parentElement.style.display='none'">Dismiss</button>
+  <br><button type="button" class="dismiss" onclick="this.parentElement.style.display='none'">Dismiss</button>
 </div>
 
-<div class="controls">
-  <div class="search-wrap">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    <input type="text" id="searchInput" placeholder="Search items..." oninput="renderList()">
-  </div>
-  <div class="sort-container">
-    <button class="ctrl-btn" id="sortBtn" onclick="toggleSort()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 6h18M3 12h12M3 18h6"/></svg>
-      Sort
+<div class="app-frame">
+  <div id="viewRoot" class="view-root"></div>
+  <nav class="bottom-nav" id="bottomNav" aria-label="Main">
+    <button type="button" class="bn-tab on" data-tab="home" onclick="setNavTab('home')" aria-label="Home">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"><path d="m3 11 9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V11z"/></svg>
+      Home
     </button>
-    <div class="sort-drop" id="sortDrop">
-      <button class="sort-opt active" data-sort="expiry-asc" onclick="setSort(this)">📅 Expiry (soonest)</button>
-      <button class="sort-opt" data-sort="expiry-desc" onclick="setSort(this)">📅 Expiry (latest)</button>
-      <button class="sort-opt" data-sort="name-asc" onclick="setSort(this)">🔤 Name (A→Z)</button>
-      <button class="sort-opt" data-sort="name-desc" onclick="setSort(this)">🔤 Name (Z→A)</button>
-      <button class="sort-opt" data-sort="added-desc" onclick="setSort(this)">🕐 Recently added</button>
-      <button class="sort-opt" data-sort="category" onclick="setSort(this)">📂 Category</button>
+    <button type="button" class="bn-tab" data-tab="items" onclick="setNavTab('items')" aria-label="Items">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+      Items
+    </button>
+    <div class="bn-fab-wrap">
+      <button type="button" class="bn-fab" id="mainFab" onclick="openSheet()" aria-label="Add item">+</button>
     </div>
-  </div>
+    <button type="button" class="bn-tab" data-tab="cook" onclick="setNavTab('cook')" aria-label="Cook">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h18M5 10v7a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3v-7M8 7V5M16 7V5M12 4v3"/></svg>
+      Cook
+    </button>
+    <button type="button" class="bn-tab" data-tab="crew" onclick="setNavTab('crew')" aria-label="Crew">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Crew
+    </button>
+  </nav>
 </div>
-
-<div class="cats" id="catBar"></div>
-<div class="list" id="itemList"></div>
-<button class="fab" id="fab" onclick="openSheet()">+</button>
 
 <!-- SHEET OVERLAY -->
 <div class="overlay" id="overlay" onclick="closeSheet()"></div>
@@ -1065,61 +1276,270 @@ function itemExpiryStatus(item) {
   return expiryStatus(soonest);
 }
 
-// =====================================================================
-// UI LOGIC
-// =====================================================================
-function setTab(el){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');currentTab=el.dataset.loc;renderList()}
-
-function toggleSort(){document.getElementById('sortDrop').classList.toggle('open')}
-function setSort(el){
-  document.querySelectorAll('.sort-opt').forEach(o=>o.classList.remove('active'));
-  el.classList.add('active');currentSort=el.dataset.sort;
-  document.getElementById('sortDrop').classList.remove('open');
-  document.getElementById('sortBtn').classList.toggle('active-sort',currentSort!=='expiry-asc');
-  renderList()
+function itemMinDays(item) {
+  const batches = item.batches || [];
+  let minD = 9999;
+  for (const b of batches) {
+    if (!b.useBy) continue;
+    const d = daysUntil(b.useBy);
+    if (d < minD) minD = d;
+  }
+  return minD;
+}
+function expiringSoonList(within) {
+  return items.filter(i => itemSoonestExpiry(i) && itemMinDays(i) <= within)
+    .sort((a, b) => itemMinDays(a) - itemMinDays(b));
+}
+function countByLocation(loc) {
+  return items.filter(i => i.location === loc).length;
+}
+function itemsInCategory(catId) {
+  return items.filter(i => i.category === catId);
+}
+function urgentCountInCategory(catId) {
+  return itemsInCategory(catId).filter(i => itemMinDays(i) <= 2).length;
+}
+function pillToneFromDays(days) {
+  if (days < 0) return { cls: 'expired', bg: 'var(--urgent-soft)', fg: 'var(--urgent)' };
+  if (days <= 2) return { cls: 'urgent', bg: 'var(--urgent-soft)', fg: 'var(--urgent)' };
+  if (days <= 5) return { cls: 'soon', bg: 'var(--soon-soft)', fg: '#8a6010' };
+  return { cls: 'fresh', bg: 'var(--fresh-soft)', fg: 'var(--fresh)' };
 }
 
-function buildCatBar(){
-  document.getElementById('catBar').innerHTML=
-    `<button class="cpill active" data-cat="all" onclick="setCat(this)">All</button>`+
-    CATEGORIES.map(c=>`<button class="cpill" data-cat="${c.id}" onclick="setCat(this)">${c.emoji} ${c.label}</button>`).join('')
-}
-function setCat(el){document.querySelectorAll('.cpill').forEach(p=>p.classList.remove('active'));el.classList.add('active');currentCat=el.dataset.cat;renderList()}
+// =====================================================================
+// APP SHELL — navigation & screens (handoff layouts)
+// =====================================================================
+let ui = {
+  tab: 'home',
+  stack: 'main',
+  categoryId: null,
+  locationLoc: null,
+  itemId: null,
+  homeLayout: localStorage.getItem('fm_home_layout') || 'pantry',
+  detailReturn: null,
+  shelfLoc: localStorage.getItem('fm_shelf_loc') || 'fridge'
+};
+let locFilterCat = 'all';
+let locSort = 'expiry';
+let categorySearchFilter = '';
 
-function buildCatGrid(){
-  document.getElementById('catGrid').innerHTML=CATEGORIES.map(c=>
-    `<button class="copt" data-cat="${c.id}" onclick="pickCat(this)"><span class="ce">${c.emoji}</span>${c.label}</button>`
-  ).join('')
+function getHouseholdName() {
+  return localStorage.getItem('fm_household') || 'My kitchen';
 }
-function pickCat(el){document.querySelectorAll('.copt').forEach(o=>o.classList.remove('active'));el.classList.add('active');selectedCat=el.dataset.cat}
-function pickLoc(el,loc){document.querySelectorAll('.topt').forEach(o=>o.classList.remove('active'));el.classList.add('active');selectedLoc=loc}
+function setHouseholdName(v) {
+  localStorage.setItem('fm_household', (v || '').trim() || 'My kitchen');
+  refreshUI();
+}
+function setHomeLayout(mode) {
+  ui.homeLayout = mode;
+  localStorage.setItem('fm_home_layout', mode);
+  if (ui.tab === 'home' && ui.stack === 'main') refreshUI();
+}
+function setNavTab(t) {
+  ui.tab = t;
+  ui.stack = 'main';
+  ui.categoryId = null;
+  ui.locationLoc = null;
+  ui.itemId = null;
+  ui.detailReturn = null;
+  locFilterCat = 'all';
+  locSort = 'expiry';
+  categorySearchFilter = '';
+  refreshUI();
+}
+function syncBottomNav() {
+  let hi = ui.tab;
+  if (ui.stack === 'item' && ui.detailReturn && ui.detailReturn.navTab) hi = ui.detailReturn.navTab;
+  document.querySelectorAll('#bottomNav .bn-tab').forEach(b => {
+    b.classList.toggle('on', b.dataset.tab === hi);
+  });
+}
+function openCategory(catId) {
+  ui.stack = 'category';
+  ui.categoryId = catId;
+  categorySearchFilter = '';
+  refreshUI();
+}
+function openLocation(loc) {
+  ui.stack = 'location';
+  ui.locationLoc = loc;
+  locFilterCat = 'all';
+  locSort = 'expiry';
+  refreshUI();
+}
+function openItemDetail(id, ret) {
+  ui.detailReturn = ret || {
+    tab: ui.tab, stack: ui.stack, categoryId: ui.categoryId, locationLoc: ui.locationLoc, shelfLoc: ui.shelfLoc, navTab: ui.tab
+  };
+  ui.stack = 'item';
+  ui.itemId = id;
+  refreshUI();
+}
+function closeDetail() {
+  if (ui.detailReturn) {
+    ui.tab = ui.detailReturn.tab;
+    ui.stack = ui.detailReturn.stack;
+    ui.categoryId = ui.detailReturn.categoryId;
+    ui.locationLoc = ui.detailReturn.locationLoc;
+    if (ui.detailReturn.shelfLoc) ui.shelfLoc = ui.detailReturn.shelfLoc;
+  } else {
+    ui.stack = 'main';
+  }
+  ui.itemId = null;
+  ui.detailReturn = null;
+  refreshUI();
+}
+function navBackStack() {
+  if (ui.stack === 'item') {
+    closeDetail();
+    return;
+  }
+  ui.stack = 'main';
+  ui.categoryId = null;
+  ui.locationLoc = null;
+  categorySearchFilter = '';
+  refreshUI();
+}
+function setShelfLoc(loc) {
+  ui.shelfLoc = loc;
+  localStorage.setItem('fm_shelf_loc', loc);
+  refreshUI();
+}
+function setLocFilterCat(c) {
+  locFilterCat = c;
+  refreshUI();
+}
+function setLocSort(s) {
+  locSort = s;
+  refreshUI();
+}
+function setCategorySearch(v) {
+  categorySearchFilter = (v || '').toLowerCase().trim();
+  refreshUI();
+}
+
+function householdAvatarsHtml() {
+  const n = getHouseholdName();
+  const initial = n.charAt(0).toUpperCase() || 'Y';
+  return `<div class="avatar-stack" aria-hidden="true">
+    <div class="av" style="background:var(--accent)">${escHtml(initial)}</div>
+    <div class="av" style="background:var(--fresh);opacity:.85">+</div>
+  </div>`;
+}
+
+function renderSwipeRowHtml(item) {
+  const soonest = itemSoonestExpiry(item);
+  const st = expiryStatus(soonest);
+  const sc = st === 'expired'
+    ? (item.location === 'fridge' ? 's-expired s-red' : 's-red')
+    : `s-${st}`;
+  const el = expiryLabel(soonest);
+  const pill = st === 'expired' ? 'expired' : st === 'red' ? 'urgent' : st === 'amber' ? 'soon' : 'fresh';
+  const totalQty = itemTotalQty(item);
+  const summary = itemBatchSummary(item);
+  const locCls = item.location === 'fridge' ? 'fridge' : 'freezer';
+  const locLbl = item.location === 'fridge' ? 'Fridge' : 'Freezer';
+    return `<div class="swipe-host" data-item-id="${item.id}">
+    <div class="swipe-reveal" aria-hidden="true">
+      <button type="button" class="swipe-del-btn" onclick="quickDelete('${item.id}')">Delete</button>
+    </div>
+    <div class="card swipe-surface ${sc} l-${item.location}" onclick="if(!event.target.closest('.abtn'))openItemDetail('${item.id}')">
+      <div class="ic" style="background:${getCatTone(item.category)}">${getCatEmoji(item.category)}</div>
+      <div class="info">
+        <div class="name">${escHtml(item.name)}</div>
+        <div class="meta"><span>×${totalQty}</span><span class="meta-dot">·</span><span class="loc-label ${locCls}">${locLbl}</span></div>
+        ${summary ? `<div class="batch-summary">${escHtml(summary)}</div>` : ''}
+      </div>
+      <div class="exp-pill ${pill}">${el}</div>
+      <div class="actions">
+        <button type="button" class="abtn" onclick="event.stopPropagation();editItem('${item.id}')" title="Edit"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+        <button type="button" class="abtn del" onclick="event.stopPropagation();quickDelete('${item.id}')" title="Delete"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderSwipeRowsHtml(arr) {
+  return arr.map(renderSwipeRowHtml).join('');
+}
 
 // =====================================================================
-// RENDER LIST
+// UI LOGIC (items tab filters)
 // =====================================================================
-function renderList(){
-  const search=document.getElementById('searchInput').value.toLowerCase().trim();
-  let f=items.filter(i=>{
-    if(currentTab!=='all'&&i.location!==currentTab)return false;
-    if(currentCat!=='all'&&i.category!==currentCat)return false;
-    if(search&&!i.name.toLowerCase().includes(search))return false;
-    return true
+function setTab(el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  currentTab = el.dataset.loc;
+  renderListInto(document.getElementById('itemList'));
+}
+
+function toggleSort() {
+  const sd = document.getElementById('sortDrop');
+  if (sd) sd.classList.toggle('open');
+}
+function setSort(el) {
+  document.querySelectorAll('.sort-opt').forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+  currentSort = el.dataset.sort;
+  const sd = document.getElementById('sortDrop');
+  if (sd) sd.classList.remove('open');
+  const sb = document.getElementById('sortBtn');
+  if (sb) sb.classList.toggle('active-sort', currentSort !== 'expiry-asc');
+  renderListInto(document.getElementById('itemList'));
+}
+
+function buildCatBar() {}
+
+function setCat(el) {
+  document.querySelectorAll('.cpill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  currentCat = el.dataset.cat;
+  renderListInto(document.getElementById('itemList'));
+}
+
+function buildCatGrid() {
+  document.getElementById('catGrid').innerHTML = CATEGORIES.map(c =>
+    `<button type="button" class="copt" data-cat="${c.id}" onclick="pickCat(this)"><span class="ce">${c.emoji}</span>${c.label}</button>`
+  ).join('');
+}
+function pickCat(el) {
+  document.querySelectorAll('.copt').forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+  selectedCat = el.dataset.cat;
+}
+function pickLoc(el, loc) {
+  document.querySelectorAll('.topt').forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+  selectedLoc = loc;
+}
+
+// =====================================================================
+// RENDER LIST (items tab & shared)
+// =====================================================================
+function renderListInto(list) {
+  if (!list) return;
+  const searchEl = document.getElementById('searchInput');
+  const search = searchEl ? searchEl.value.toLowerCase().trim() : '';
+  let f = items.filter(i => {
+    if (currentTab !== 'all' && i.location !== currentTab) return false;
+    if (currentCat !== 'all' && i.category !== currentCat) return false;
+    if (search && !i.name.toLowerCase().includes(search)) return false;
+    return true;
   });
 
-  f.sort((a,b)=>{
+  f.sort((a, b) => {
     const aSoonest = itemSoonestExpiry(a), bSoonest = itemSoonestExpiry(b);
-    switch(currentSort){
-      case'expiry-asc':return(daysUntil(aSoonest)||9999)-(daysUntil(bSoonest)||9999);
-      case'expiry-desc':return(daysUntil(bSoonest)||-9999)-(daysUntil(aSoonest)||-9999);
-      case'name-asc':return a.name.localeCompare(b.name);
-      case'name-desc':return b.name.localeCompare(a.name);
-      case'added-desc':return(b.addedAt||0)-(a.addedAt||0);
-      case'category':return(a.category||'').localeCompare(b.category||'')||(daysUntil(aSoonest)||9999)-(daysUntil(bSoonest)||9999);
-      default:return 0
+    switch (currentSort) {
+      case 'expiry-asc': return (daysUntil(aSoonest) || 9999) - (daysUntil(bSoonest) || 9999);
+      case 'expiry-desc': return (daysUntil(bSoonest) || -9999) - (daysUntil(aSoonest) || -9999);
+      case 'name-asc': return a.name.localeCompare(b.name);
+      case 'name-desc': return b.name.localeCompare(a.name);
+      case 'added-desc': return (b.addedAt || 0) - (a.addedAt || 0);
+      case 'category': return (a.category || '').localeCompare(b.category || '') || (daysUntil(aSoonest) || 9999) - (daysUntil(bSoonest) || 9999);
+      default: return 0;
     }
   });
 
-  const list=document.getElementById('itemList');
   if (swipeState) {
     window.removeEventListener('pointermove', swipeMoveHandler);
     window.removeEventListener('pointerup', swipeEndHandler);
@@ -1128,44 +1548,510 @@ function renderList(){
   }
   openSwipeHost = null;
   if (!initialRenderDone) { list.classList.add('list-initial-load'); } else { list.classList.remove('list-initial-load'); }
-  if(!f.length){
-    list.innerHTML=`<div class="empty"><div class="ei">${search?'🔍':'🍽️'}</div><p>${search?'No items match your search':'Nothing here yet.<br>Tap + to add your first item.'}</p></div>`;
-    updateStats();return
+  if (!f.length) {
+    list.innerHTML = `<div class="empty"><div class="ei">${search ? '🔍' : '🍽️'}</div><p>${search ? 'No items match your search' : 'Nothing here yet.<br>Tap + to add your first item.'}</p></div>`;
+    updateStats();
+    return;
   }
+  list.innerHTML = f.map(item => renderSwipeRowHtml(item)).join('');
+  updateStats();
+}
 
-  list.innerHTML=f.map(item=>{
+function renderList() {
+  refreshUI();
+}
+
+function renderPantryHome() {
+  const urgent = expiringSoonList(3);
+  const total = items.length;
+  const fc = countByLocation('fridge');
+  const zc = countByLocation('freezer');
+  const sub = escHtml(getHouseholdName().toUpperCase());
+  const rail = urgent.length ? urgent.slice(0, 8).map(item => {
+    const cat = CATEGORIES.find(c => c.id === item.category) || CATEGORIES[CATEGORIES.length - 1];
+    const d = itemMinDays(item);
+    const tone = pillToneFromDays(d);
     const soonest = itemSoonestExpiry(item);
-    const st = expiryStatus(soonest);
-    const sc = st==='expired'
-      ? (item.location==='fridge' ? 's-expired s-red' : 's-red')
-      : `s-${st}`;
     const el = expiryLabel(soonest);
-    const pill = st==='expired'?'expired':st==='red'?'urgent':st==='amber'?'soon':'fresh';
-    const totalQty = itemTotalQty(item);
-    const summary = itemBatchSummary(item);
-    const locCls = item.location==='fridge'?'fridge':'freezer';
-    const locLbl = item.location==='fridge'?'Fridge':'Freezer';
+    const locLbl = item.location === 'freezer' ? 'Freezer' : 'Fridge';
+    return `<button type="button" class="urgent-card" onclick="openItemDetail('${item.id}')">
+      <div class="uc-top">
+        <div class="uc-ic" style="background:${cat.tone}">${cat.emoji}</div>
+        <div class="uc-pill" style="background:${tone.bg};color:${tone.fg}">${el}</div>
+      </div>
+      <div class="uc-name">${escHtml(item.name)}</div>
+      <div class="uc-meta">×${itemTotalQty(item)} · ${locLbl}</div>
+    </button>`;
+  }).join('') : '';
 
-    return`<div class="swipe-host" data-item-id="${item.id}">
-      <div class="swipe-reveal" aria-hidden="true">
-        <button type="button" class="swipe-del-btn" onclick="quickDelete('${item.id}')">Delete</button>
+  const tiles = CATEGORIES.map(c => {
+    const n = itemsInCategory(c.id).length;
+    if (!n) return '';
+    const u = urgentCountInCategory(c.id);
+    return `<button type="button" class="cat-tile" style="background:${c.tone}" onclick="openCategory('${c.id}')">
+      <div class="ct-emoji">${c.emoji}</div>
+      <div>
+        <div class="ct-label">${escHtml(c.label)}</div>
+        <div class="ct-meta"><span>${n} ${n === 1 ? 'item' : 'items'}</span>${u ? `<span class="ct-soon">${u} soon</span>` : ''}</div>
       </div>
-      <div class="card swipe-surface ${sc} l-${item.location}">
-        <div class="ic" style="background:${getCatTone(item.category)}">${getCatEmoji(item.category)}</div>
-        <div class="info">
-          <div class="name">${escHtml(item.name)}</div>
-          <div class="meta"><span>×${totalQty}</span><span class="meta-dot">·</span><span class="loc-label ${locCls}">${locLbl}</span></div>
-          ${summary?`<div class="batch-summary">${escHtml(summary)}</div>`:''}
-        </div>
-        <div class="exp-pill ${pill}">${el}</div>
-        <div class="actions">
-          <button class="abtn" onclick="editItem('${item.id}')" title="Edit"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
-          <button class="abtn del" onclick="quickDelete('${item.id}')" title="Delete"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+    </button>`;
+  }).filter(Boolean).join('');
+
+  return `<div class="scroll-page">
+    <div class="page-header">
+      <div class="ph-main">
+        <div class="ph-sub">${sub}</div>
+        <div class="ph-title">Your pantry</div>
+      </div>
+      ${householdAvatarsHtml()}
+    </div>
+    <div class="stat-pill-grid">
+      <button type="button" class="stat-pill fridge" onclick="openLocation('fridge')">
+        <div class="spi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M5 11h14M8 7v1M8 14v3"/></svg></div>
+        <div><div class="sp-count">${fc}</div><div class="sp-lbl">In fridge</div></div>
+      </button>
+      <button type="button" class="stat-pill freezer" onclick="openLocation('freezer')">
+        <div class="spi"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M2 12h20M5 5l14 14M19 5 5 19"/></svg></div>
+        <div><div class="sp-count">${zc}</div><div class="sp-lbl">In freezer</div></div>
+      </button>
+    </div>
+    ${urgent.length ? `<div class="sec-head"><h3>Use soon</h3><span class="sec-count accent">${urgent.length}</span></div>
+    <div class="urgent-rail">${rail}</div>` : ''}
+    <div class="sec-head"><h3>Browse</h3><span class="sec-sub">${total} items total</span></div>
+    <div class="cat-grid-2">${tiles || '<p style="padding:0 20px;color:var(--ink-faint);font-size:14px;">Add items with + to see categories here.</p>'}</div>
+  </div>`;
+}
+
+function renderCategoryDetail() {
+  const cat = CATEGORIES.find(c => c.id === ui.categoryId);
+  if (!cat) return renderPantryHome();
+  let listItems = itemsInCategory(cat.id).sort((a, b) => itemMinDays(a) - itemMinDays(b));
+  if (categorySearchFilter) {
+    listItems = listItems.filter(i => i.name.toLowerCase().includes(categorySearchFilter));
+  }
+  const fridge = listItems.filter(i => i.location === 'fridge');
+  const freezer = listItems.filter(i => i.location === 'freezer');
+  const totalQty = listItems.reduce((s, i) => s + itemTotalQty(i), 0);
+  return `<div class="scroll-page">
+    <div class="cat-hero" style="background:${cat.tone}">
+      <div class="cat-hero-top">
+        <button type="button" class="icon-btn" onclick="navBackStack()" aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+        <div style="flex:1"></div>
+        <input type="search" class="fi" style="max-width:120px;padding:8px 10px;font-size:13px" placeholder="Filter…" value="${escHtml(categorySearchFilter)}" oninput="setCategorySearch(this.value)">
+      </div>
+      <div class="cat-hero-big">
+        <div class="cat-hero-emoji">${cat.emoji}</div>
+        <div>
+          <div class="cat-hero-title">${escHtml(cat.label)}</div>
+          <div class="cat-hero-meta">${listItems.length} items · ${totalQty} total</div>
         </div>
       </div>
-    </div>`
+    </div>
+    <div style="padding:16px 0 24px">
+      ${fridge.length ? `<div class="sub-head"><div class="sh-lbl" style="color:var(--fridge)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M5 11h14"/></svg> In fridge</div><div class="sh-line"></div><span class="sh-n">${fridge.length}</span></div>
+      <div class="list" style="padding:0 20px">${renderSwipeRowsHtml(fridge)}</div>` : ''}
+      ${freezer.length ? `<div class="sub-head" style="margin-top:16px"><div class="sh-lbl" style="color:var(--freezer)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M2 12h20"/></svg> In freezer</div><div class="sh-line"></div><span class="sh-n">${freezer.length}</span></div>
+      <div class="list" style="padding:0 20px">${renderSwipeRowsHtml(freezer)}</div>` : ''}
+      ${!listItems.length ? '<div class="empty" style="padding:40px 20px"><p>No items in this category yet.</p></div>' : ''}
+    </div>
+  </div>`;
+}
+
+function renderLocationScreen() {
+  const loc = ui.locationLoc;
+  const isF = loc === 'fridge';
+  const col = isF ? 'var(--fridge)' : 'var(--freezer)';
+  const soft = isF ? 'var(--fridge-soft)' : 'var(--freezer-soft)';
+  let locItems = items.filter(i => i.location === loc);
+  if (locFilterCat !== 'all') locItems = locItems.filter(i => i.category === locFilterCat);
+  locItems = [...locItems].sort((a, b) => {
+    if (locSort === 'expiry') return itemMinDays(a) - itemMinDays(b);
+    if (locSort === 'name') return a.name.localeCompare(b.name);
+    if (locSort === 'category') return (a.category || '').localeCompare(b.category || '');
+    return 0;
+  });
+  const cats = CATEGORIES.filter(c => items.some(i => i.location === loc && i.category === c.id));
+  const totalInLoc = items.filter(i => i.location === loc).length;
+  const totalQty = locItems.reduce((s, i) => s + itemTotalQty(i), 0);
+  const urgentN = locItems.filter(i => itemMinDays(i) <= 2).length;
+
+  const pills = `<button type="button" class="filter-pill ${locFilterCat === 'all' ? 'on' : ''}" onclick="setLocFilterCat('all')">All <span style="opacity:.7;margin-left:3px">${totalInLoc}</span></button>` +
+    cats.map(c => {
+      const n = items.filter(i => i.location === loc && i.category === c.id).length;
+      return `<button type="button" class="filter-pill ${locFilterCat === c.id ? 'on' : ''}" onclick="setLocFilterCat('${c.id}')"><span style="font-size:13px;margin-right:4px">${c.emoji}</span>${escHtml(c.label)} <span style="opacity:.7;margin-left:3px">${n}</span></button>`;
+    }).join('');
+
+  return `<div class="scroll-page">
+    <div class="loc-hero" style="background:${soft}">
+      <div class="cat-hero-top">
+        <button type="button" class="icon-btn" onclick="navBackStack()" aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+      </div>
+      <div class="loc-hero-row">
+        <div class="loc-hero-ic" style="background:${col}">${isF
+    ? '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M5 11h14"/></svg>'
+    : '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M2 12h20"/></svg>'}</div>
+        <div>
+          <div style="font-size:11px;font-weight:700;color:${col};text-transform:uppercase;letter-spacing:1.4px">${isF ? 'Fridge' : 'Freezer'} · everything</div>
+          <div class="cat-hero-title" style="margin-top:4px">${totalInLoc} items</div>
+          <div style="font-size:12.5px;color:var(--ink-soft);font-weight:600;margin-top:4px">${totalQty} total${urgentN > 0 ? ` · <span style="color:var(--urgent)">${urgentN} need using</span>` : ''}</div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-pill-row">${pills}</div>
+    <div class="loc-sort-row">
+      <div style="font-size:11.5px;font-weight:700;color:var(--ink-faint);text-transform:uppercase;letter-spacing:1px">${locItems.length} showing</div>
+      <div class="loc-sort-btns">
+        ${[['expiry', 'Expiry'], ['name', 'Name'], ['category', 'Category']].map(([id, label]) =>
+    `<button type="button" class="${locSort === id ? 'on' : ''}" onclick="setLocSort('${id}')">${label}</button>`
+  ).join('')}
+      </div>
+    </div>
+    <div class="list" style="padding:0 20px 24px">${locItems.length ? renderSwipeRowsHtml(locItems) : '<div class="empty" style="padding:32px 12px"><div class="ei">🧊</div><p>Nothing here yet.</p></div>'}</div>
+  </div>`;
+}
+
+async function markItemUsed(id) {
+  const item = items.find(i => i.id === id);
+  if (!item) return;
+  let batches = [...(item.batches || [{ qty: 1, useBy: '' }])];
+  if (!batches.length) {
+    await dataDelete(id);
+    items = items.filter(i => i.id !== id);
+  } else {
+    let q = Math.max(0, (batches[0].qty || 1) - 1);
+    if (q <= 0) batches.shift();
+    else batches[0] = { ...batches[0], qty: q };
+    if (!batches.length) {
+      await dataDelete(id);
+      items = items.filter(i => i.id !== id);
+    } else {
+      item.batches = batches;
+      await dataPut(item);
+    }
+  }
+  closeDetail();
+}
+
+function renderItemDetail() {
+  const item = items.find(i => i.id === ui.itemId);
+  if (!item) {
+    ui.stack = 'main';
+    ui.itemId = null;
+    ui.detailReturn = null;
+    refreshUI();
+    return '';
+  }
+  const cat = CATEGORIES.find(c => c.id === item.category) || CATEGORIES[CATEGORIES.length - 1];
+  const soonest = itemSoonestExpiry(item);
+  const st = expiryStatus(soonest);
+  const pill = st === 'expired' ? 'expired' : st === 'red' ? 'urgent' : st === 'amber' ? 'soon' : 'fresh';
+  const col = pill === 'expired' || pill === 'urgent' ? { bg: 'var(--urgent-soft)', fg: 'var(--urgent)', t: 'Use urgently' }
+    : pill === 'soon' ? { bg: 'var(--soon-soft)', fg: '#8a6010', t: 'Use soon' }
+      : { bg: 'var(--fresh-soft)', fg: 'var(--fresh)', t: 'Still fresh' };
+  const batches = item.batches || [];
+  const batchRows = batches.map((b, i) => {
+    const bt = b.useBy ? expiryStatus(b.useBy) : 'green';
+    const bp = bt === 'expired' ? 'expired' : bt === 'red' ? 'urgent' : bt === 'amber' ? 'soon' : 'fresh';
+    const bl = expiryLabel(b.useBy);
+    return `<div class="batch-detail-row">
+      <div class="bd-q">×${b.qty || 1}</div>
+      <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--ink)">Batch ${i + 1}</div>
+      <div style="font-size:11.5px;color:var(--ink-faint)">${b.useBy ? 'Use by ' + b.useBy : 'No date'}</div></div>
+      <span class="exp-pill ${bp}">${bl}</span>
+    </div>`;
   }).join('');
-  updateStats()
+
+  return `<div class="scroll-page">
+    <div class="page-header" style="padding-bottom:8px">
+      <button type="button" class="icon-btn" onclick="closeDetail()" aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+      <div style="flex:1"></div>
+      <button type="button" class="icon-btn" onclick="openSheet('${item.id}')" aria-label="Edit"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+    </div>
+    <div class="detail-hero" style="background:${cat.tone}">
+      <div class="dh-emoji">${cat.emoji}</div>
+      <div class="dh-name">${escHtml(item.name)}</div>
+      <div class="detail-chips">
+        <span class="chip ${locChip}">${item.location === 'freezer' ? '🧊 Freezer' : '❄️ Fridge'}</span>
+        <span class="chip def">${escHtml(cat.label)}</span>
+      </div>
+    </div>
+    <div class="exp-banner" style="background:${col.bg};color:${col.fg}">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      <div style="flex:1">
+        <div style="font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px">${col.t}</div>
+        <div style="font-family:var(--font-display);font-size:22px;font-weight:500;margin-top:2px">${expiryLabel(soonest)}</div>
+      </div>
+    </div>
+    <div class="sec-head"><h3>Batches</h3><span class="sec-sub">${batches.length}</span></div>
+    ${batchRows}
+    <div class="sec-head" style="margin-top:8px"><h3>Cook with this</h3></div>
+    <div class="urgent-rail" style="margin-bottom:16px">
+      ${['Quick stir-fry', 'Soup or stew', 'Sheet-pan dinner'].map((r, i) => `<div class="urgent-card" style="cursor:default;width:140px"><div style="height:70px;border-radius:12px;background:linear-gradient(135deg,${cat.tone},var(--accent-soft));display:flex;align-items:center;justify-content:center;font-size:28px">🍳</div><div style="font-size:13px;font-weight:700;margin-top:8px;color:var(--ink)">${r}</div><div style="font-size:11px;color:var(--ink-faint);margin-top:2px">${15 + i * 8} min · ideas</div></div>`).join('')}
+    </div>
+    <div class="detail-actions">
+      <button type="button" class="btn-ink" onclick="markItemUsed('${item.id}')">✓ Mark as used</button>
+      <button type="button" class="btn-toss" onclick="quickDelete('${item.id}')">Tossed</button>
+    </div>
+  </div>`;
+}
+
+function renderItemsTab() {
+  return `<div class="scroll-page">
+    <div class="page-header">
+      <div class="ph-main">
+        <div class="ph-sub">All items</div>
+        <div class="ph-title">Inventory</div>
+      </div>
+    </div>
+    <div class="tabs" style="margin:0 20px 8px">
+      <button type="button" class="tab active" data-loc="all" onclick="setTab(this)">All <span class="badge" id="badgeAll">0</span></button>
+      <button type="button" class="tab" data-loc="fridge" onclick="setTab(this)">❄️ Fridge <span class="badge" id="badgeFridge">0</span></button>
+      <button type="button" class="tab" data-loc="freezer" onclick="setTab(this)">🧊 Freezer <span class="badge" id="badgeFreezer">0</span></button>
+    </div>
+    <div class="items-tab-tools">
+      <div class="search-wrap">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="searchInput" placeholder="Search items..." oninput="renderListInto(document.getElementById('itemList'))">
+      </div>
+      <div class="sort-container">
+        <button type="button" class="ctrl-btn" id="sortBtn" onclick="toggleSort()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 6h18M3 12h12M3 18h6"/></svg>
+          Sort
+        </button>
+        <div class="sort-drop" id="sortDrop">
+          <button type="button" class="sort-opt active" data-sort="expiry-asc" onclick="setSort(this)">📅 Expiry (soonest)</button>
+          <button type="button" class="sort-opt" data-sort="expiry-desc" onclick="setSort(this)">📅 Expiry (latest)</button>
+          <button type="button" class="sort-opt" data-sort="name-asc" onclick="setSort(this)">🔤 Name (A→Z)</button>
+          <button type="button" class="sort-opt" data-sort="name-desc" onclick="setSort(this)">🔤 Name (Z→A)</button>
+          <button type="button" class="sort-opt" data-sort="added-desc" onclick="setSort(this)">🕐 Recently added</button>
+          <button type="button" class="sort-opt" data-sort="category" onclick="setSort(this)">📂 Category</button>
+        </div>
+      </div>
+    </div>
+    <div class="cats" id="catBar"></div>
+    <div class="list" id="itemList" style="padding-bottom:24px"></div>
+  </div>`;
+}
+
+function renderCookTab() {
+  return `<div class="scroll-page cook-placeholder">
+    <div style="font-size:52px;margin-bottom:12px">🍳</div>
+    <h2>Cook</h2>
+    <p>Recipe suggestions from your inventory are coming soon. Use <b>Items</b> or your home screen to find what to use next.</p>
+  </div>`;
+}
+
+function renderCrewTab() {
+  const code = (mySyncCode && formatCodeDisplay(mySyncCode)) || '--------';
+  const name = escHtml(getHouseholdName());
+  return `<div class="scroll-page">
+    <div class="page-header">
+      <div class="ph-main">
+        <div class="ph-sub">Household</div>
+        <div class="ph-title">Crew</div>
+      </div>
+    </div>
+    <div class="crew-card-dark">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;color:var(--accent)">Your crew</div>
+      <div style="font-family:var(--font-display);font-size:24px;font-weight:500;margin-top:6px;letter-spacing:-0.4px">Sharing this fridge</div>
+      <div style="margin-top:16px;display:flex;align-items:center;gap:12px">
+        <div style="width:38px;height:38px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff">You</div>
+        <div style="flex:1;font-size:13px;opacity:.9">Link devices with your sync code so everyone sees the same list.</div>
+      </div>
+    </div>
+    <div class="crew-invite">
+      <div style="font-family:var(--font-display);font-size:18px;font-weight:500;color:var(--ink)">Household name</div>
+      <input type="text" class="fi" style="margin-top:10px" value="${name}" onchange="setHouseholdName(this.value)" placeholder="e.g. Flat 4B">
+      <div style="font-family:var(--font-display);font-size:18px;font-weight:500;color:var(--ink);margin-top:18px">Invite someone</div>
+      <div style="font-size:12px;color:var(--ink-faint);margin-top:4px">Share this code — they enter it in 🔗 on their device.</div>
+      <div style="margin-top:12px;padding:14px 16px;border-radius:14px;background:var(--paper);display:flex;align-items:center;gap:10px;border:1.5px dashed var(--line-deep)">
+        <code style="flex:1">${code}</code>
+        <button type="button" class="icon-btn" style="background:var(--ink);color:var(--paper);border:0" onclick="copySyncCode()">Copy</button>
+      </div>
+    </div>
+    <div class="sec-head"><h3>Activity</h3><span class="sec-sub">Coming soon</span></div>
+    <p style="padding:0 20px 24px;font-size:13px;color:var(--ink-faint);line-height:1.5">Per-person activity history will show here when we add tracking. For now, all changes sync across linked devices.</p>
+  </div>`;
+}
+
+function shelfConfig(loc) {
+  return loc === 'fridge'
+    ? [
+      { label: 'Top shelf', cats: ['drinks', 'leftovers', 'readymeal'] },
+      { label: 'Middle', cats: ['dairy', 'meat'] },
+      { label: 'Crisper', cats: ['veg', 'fruit'] },
+      { label: 'Door', cats: ['condiments', 'bakery', 'other'] }
+    ]
+    : [
+      { label: 'Top', cats: ['dessert', 'bakery'] },
+      { label: 'Middle', cats: ['meat'] },
+      { label: 'Bottom', cats: ['veg', 'fruit', 'readymeal', 'other'] }
+    ];
+}
+
+function renderShelfHome() {
+  const loc = ui.shelfLoc;
+  const locItems = items.filter(i => i.location === loc);
+  const urgent = expiringSoonList(3).filter(i => i.location === loc).length;
+  const fc = countByLocation('fridge');
+  const zc = countByLocation('freezer');
+  const shelves = shelfConfig(loc);
+  const sub = escHtml(getHouseholdName().toUpperCase());
+
+  const shelfHtml = shelves.map((shelf, si) => {
+    const shelfItems = locItems.filter(i => shelf.cats.includes(i.category));
+    const chips = shelfItems.map(item => {
+      const d = itemMinDays(item);
+      const ring = d <= 2 ? 'var(--urgent)' : d <= 5 ? 'var(--soon)' : 'transparent';
+      return `<button type="button" class="shelf-chip" onclick="openItemDetail('${item.id}')">
+        <span class="dot" style="background:${ring}"></span>${escHtml(item.name)} <span style="opacity:.6">×${itemTotalQty(item)}</span>
+      </button>`;
+    }).join('');
+    return `<div class="shelf-row">
+      <div class="shelf-label">${escHtml(shelf.label)} · ${shelfItems.length}</div>
+      <div class="shelf-surface">${shelfItems.length ? chips : '<span style="font-size:11px;color:var(--ink-faint);font-style:italic;padding:10px">Empty shelf</span>'}</div>
+    </div>`;
+  }).join('');
+
+  const catPills = CATEGORIES.map(c => {
+    const n = itemsInCategory(c.id).length;
+    if (!n) return '';
+    return `<button type="button" style="padding:8px 12px;border-radius:14px;border:0;background:${c.tone};cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-family:var(--font-body),sans-serif;font-size:13px;font-weight:600;color:var(--ink);box-shadow:0 1px 0 rgba(0,0,0,0.06);margin:0 6px 6px 0" onclick="openCategory('${c.id}')"><span>${c.emoji}</span>${escHtml(c.label)} <span style="color:var(--ink-soft);font-weight:500">${n}</span></button>`;
+  }).filter(Boolean).join('');
+
+  return `<div class="scroll-page">
+    <div class="page-header">
+      <div class="ph-main">
+        <div class="ph-sub">${sub}</div>
+        <div class="ph-title">The fridge</div>
+      </div>
+      ${householdAvatarsHtml()}
+    </div>
+    <div class="shelf-seg">
+      <div class="shelf-seg-inner">
+        <button type="button" class="${loc === 'fridge' ? 'on fridge' : ''}" onclick="setShelfLoc('fridge')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M5 11h14"/></svg> Fridge <span style="background:${loc === 'fridge' ? 'var(--fridge)' : 'var(--ink-faint)'};color:#fff;padding:1px 7px;border-radius:10px;font-size:11px;font-weight:700">${fc}</span></button>
+        <button type="button" class="${loc === 'freezer' ? 'on freezer' : ''}" onclick="setShelfLoc('freezer')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M2 12h20"/></svg> Freezer <span style="background:${loc === 'freezer' ? 'var(--freezer)' : 'var(--ink-faint)'};color:#fff;padding:1px 7px;border-radius:10px;font-size:11px;font-weight:700">${zc}</span></button>
+      </div>
+    </div>
+    ${urgent ? `<div style="padding:0 20px 12px"><div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--urgent-soft);border-radius:14px;font-size:12.5px;font-weight:600;color:var(--urgent)"><b>${urgent}</b> things need using soon in this ${loc === 'freezer' ? 'freezer' : 'fridge'}</div></div>` : ''}
+    <div style="padding:4px 16px 20px">
+      <div class="shelf-wrap ${loc}">${shelfHtml}</div>
+      <div class="sec-head" style="margin-top:18px;padding-left:4px;padding-right:4px"><h3>By category</h3></div>
+      <div style="padding:0 4px">${catPills}</div>
+    </div>
+  </div>`;
+}
+
+function renderDigestHome() {
+  const urgent = expiringSoonList(3);
+  const total = items.length;
+  const expiringToday = items.filter(i => itemMinDays(i) <= 1).length;
+  const sub = new Date().toLocaleDateString('en-GB', { weekday: 'long', month: 'short', day: 'numeric' }).toUpperCase();
+  const heroNames = urgent.filter(i => itemMinDays(i) <= 1).slice(0, 2).map(i => i.name);
+  const heroText = heroNames.length >= 2
+    ? `Use ${heroNames[0]} and ${heroNames[1]} — they're closest to turning.`
+    : heroNames.length === 1
+      ? `Use ${heroNames[0]} soon — it's on its last days.`
+      : urgent.length
+        ? `You have ${urgent.length} items to use in the next few days.`
+        : 'You are all caught up on soon-to-expire items.';
+
+  const pills = urgent.slice(0, 4).map(i => `<span class="hc-pill"><span>${getCatEmoji(i.category)}</span>${escHtml(i.name)}</span>`).join('');
+
+  const miniCats = CATEGORIES.slice(0, 6).map(c => {
+    const n = itemsInCategory(c.id).length;
+    return `<button type="button" class="cat-tile" style="background:${c.tone};height:84px" onclick="openCategory('${c.id}')">
+      <div class="ct-emoji" style="font-size:28px">${c.emoji}</div>
+      <div class="ct-label" style="font-size:13px">${escHtml(c.label)}</div>
+      <div class="ct-meta">${n} items</div>
+    </button>`;
+  }).join('');
+
+  return `<div class="scroll-page">
+    <div class="page-header">
+      <div class="ph-main">
+        <div class="ph-sub">${sub}</div>
+        <div class="ph-title">Good morning</div>
+      </div>
+      ${householdAvatarsHtml()}
+    </div>
+    <div class="hero-card-dark">
+      <div class="hc-accent">✦ Today's priority</div>
+      <div class="hc-title">${escHtml(heroText)}</div>
+      ${pills ? `<div class="hc-pills">${pills}</div>` : ''}
+      <button type="button" style="margin-top:16px;padding:10px 16px;border:0;border-radius:14px;background:var(--accent);color:#fff;font-family:var(--font-body),sans-serif;font-size:13px;font-weight:700;cursor:pointer" onclick="setNavTab('items')">See all items →</button>
+    </div>
+    <div class="mini-stat-grid">
+      <div class="mini-stat" style="background:var(--urgent-soft)">
+        <div class="ms-l" style="color:var(--urgent)">Expiring today</div>
+        <div class="ms-v" style="color:var(--urgent)">${expiringToday}</div>
+      </div>
+      <div class="mini-stat" style="background:var(--paper-deep)">
+        <div class="ms-l" style="color:var(--ink-soft)">In stock</div>
+        <div class="ms-v">${total}</div>
+      </div>
+    </div>
+    <div style="background:var(--paper-soft);border-radius:20px;padding:16px;margin:0 20px 16px;box-shadow:inset 0 0 0 1px var(--line)">
+      <div style="font-family:var(--font-display);font-size:17px;font-weight:500;color:var(--ink)">This week</div>
+      <p style="font-size:12px;color:var(--ink-faint);margin-top:8px;line-height:1.45">Usage charts from the design are placeholders — focus on the priority card above to reduce waste.</p>
+    </div>
+    <div class="sec-head"><h3>Jump to</h3></div>
+    <div class="cat-grid-2" style="grid-template-columns:1fr 1fr 1fr">${miniCats}</div>
+  </div>`;
+}
+
+function renderApp() {
+  const root = document.getElementById('viewRoot');
+  if (!root) return;
+  let html = '';
+  if (ui.stack === 'item' && ui.itemId) {
+    html = renderItemDetail();
+  } else if (ui.stack === 'category' && ui.categoryId) {
+    html = renderCategoryDetail();
+  } else if (ui.stack === 'location' && ui.locationLoc) {
+    html = renderLocationScreen();
+  } else if (ui.tab === 'home') {
+    if (ui.homeLayout === 'shelf') html = renderShelfHome();
+    else if (ui.homeLayout === 'digest') html = renderDigestHome();
+    else html = renderPantryHome();
+  } else if (ui.tab === 'items') {
+    html = renderItemsTab();
+  } else if (ui.tab === 'cook') {
+    html = renderCookTab();
+  } else if (ui.tab === 'crew') {
+    html = renderCrewTab();
+  }
+  root.innerHTML = html;
+  syncBottomNav();
+  updateStats();
+
+  if (ui.tab === 'items' && ui.stack === 'main') {
+    buildCatBar();
+    const bar = document.getElementById('catBar');
+    if (bar) {
+      bar.innerHTML = `<button type="button" class="cpill" data-cat="all" onclick="setCat(this)">All</button>` +
+        CATEGORIES.map(c => `<button type="button" class="cpill" data-cat="${c.id}" onclick="setCat(this)">${c.emoji} ${c.label}</button>`).join('');
+      bar.querySelectorAll('.cpill').forEach(p => {
+        p.classList.toggle('active', p.dataset.cat === currentCat);
+      });
+    }
+    document.querySelectorAll('#viewRoot .tab').forEach(t => {
+      t.classList.toggle('active', t.dataset.loc === currentTab);
+    });
+    document.querySelectorAll('#viewRoot .sort-opt').forEach(o => {
+      o.classList.toggle('active', o.dataset.sort === currentSort);
+    });
+    const sb = document.getElementById('sortBtn');
+    if (sb) sb.classList.toggle('active-sort', currentSort !== 'expiry-asc');
+    renderListInto(document.getElementById('itemList'));
+    setupListSwipe();
+  } else if ((ui.stack === 'category' && ui.categoryId) || (ui.stack === 'location' && ui.locationLoc)) {
+    setupListSwipe();
+  }
+}
+
+function refreshUI() {
+  renderApp();
 }
 
 // =====================================================================
@@ -1225,35 +2111,43 @@ function swipeEndHandler(e) {
   }
 }
 function setupListSwipe() {
-  const list = document.getElementById('itemList');
-  list.addEventListener('pointerdown', e => {
-    if (e.button !== 0 && e.pointerType === 'mouse') return;
-    const pane = e.target.closest('.swipe-surface');
-    if (!pane || !list.contains(pane)) return;
-    if (e.target.closest('.abtn')) return;
-    const host = pane.closest('.swipe-host');
-    if (!host) return;
-    if (openSwipeHost && openSwipeHost !== host) closeOpenSwipeRow();
-    swipeState = {
-      pane,
-      host,
-      pointerId: e.pointerId,
-      startX: e.clientX,
-      startY: e.clientY,
-      startTx: swipeGetTx(pane),
-      moved: false
-    };
-    pane.classList.add('is-dragging');
-    window.addEventListener('pointermove', swipeMoveHandler, { passive: false });
-    window.addEventListener('pointerup', swipeEndHandler);
-    window.addEventListener('pointercancel', swipeEndHandler);
+  const root = document.getElementById('viewRoot');
+  if (!root) return;
+  root.querySelectorAll('.list').forEach(list => {
+    if (list._fmSwipeBound) return;
+    list._fmSwipeBound = true;
+    list.addEventListener('pointerdown', e => {
+      if (e.button !== 0 && e.pointerType === 'mouse') return;
+      const pane = e.target.closest('.swipe-surface');
+      if (!pane || !list.contains(pane)) return;
+      if (e.target.closest('.abtn')) return;
+      const host = pane.closest('.swipe-host');
+      if (!host) return;
+      if (openSwipeHost && openSwipeHost !== host) closeOpenSwipeRow();
+      swipeState = {
+        pane,
+        host,
+        pointerId: e.pointerId,
+        startX: e.clientX,
+        startY: e.clientY,
+        startTx: swipeGetTx(pane),
+        moved: false
+      };
+      pane.classList.add('is-dragging');
+      window.addEventListener('pointermove', swipeMoveHandler, { passive: false });
+      window.addEventListener('pointerup', swipeEndHandler);
+      window.addEventListener('pointercancel', swipeEndHandler);
+    });
   });
-  document.addEventListener('pointerdown', e => {
-    if (!openSwipeHost) return;
-    const h = e.target.closest('.swipe-host');
-    if (h === openSwipeHost) return;
-    closeOpenSwipeRow();
-  }, true);
+  if (!document.documentElement._fmSwipeDocBound) {
+    document.documentElement._fmSwipeDocBound = true;
+    document.addEventListener('pointerdown', e => {
+      if (!openSwipeHost) return;
+      const h = e.target.closest('.swipe-host');
+      if (h === openSwipeHost) return;
+      closeOpenSwipeRow();
+    }, true);
+  }
 }
 
 function updateStats(){
@@ -1267,12 +2161,16 @@ function updateStats(){
     return daysUntil(s) <= 3;
   }).length;
 
-  document.getElementById('totalCount').textContent=total;
-  document.getElementById('badgeAll').textContent=total;
-  document.getElementById('badgeFridge').textContent=fc;
-  document.getElementById('badgeFreezer').textContent=zc;
-  const we=document.getElementById('expiringWarn');
-  if(expiring>0){we.style.display='';document.getElementById('expiringCount').textContent=expiring}else{we.style.display='none'}
+  const setTxt = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  setTxt('totalCount', total);
+  setTxt('badgeAll', total);
+  setTxt('badgeFridge', fc);
+  setTxt('badgeFreezer', zc);
+  const we = document.getElementById('expiringWarn');
+  if (we) {
+    if (expiring > 0) { we.style.display = ''; setTxt('expiringCount', expiring); }
+    else { we.style.display = 'none'; }
+  }
 }
 
 // =====================================================================
@@ -1391,7 +2289,7 @@ async function saveItem() {
     items.push(item);
     await dataPut(item);
   }
-  closeSheet(); renderList();
+  closeSheet(); refreshUI();
 }
 
 // =====================================================================
@@ -1420,8 +2318,13 @@ async function doDelete() {
   if (deleteTargetId) {
     await dataDelete(deleteTargetId);
     items = items.filter(i => i.id !== deleteTargetId);
+    if (ui.itemId === deleteTargetId) {
+      ui.itemId = null;
+      ui.detailReturn = null;
+      ui.stack = 'main';
+    }
   }
-  cancelDelete(); closeSheet(); renderList();
+  cancelDelete(); closeSheet(); refreshUI();
 }
 
 // =====================================================================
@@ -1429,9 +2332,9 @@ async function doDelete() {
 // =====================================================================
 document.addEventListener('click', e => {
   const sd = document.getElementById('sortDrop'), sb = document.getElementById('sortBtn');
-  if (!sd.contains(e.target) && !sb.contains(e.target)) sd.classList.remove('open');
+  if (sd && sb && !sd.contains(e.target) && !sb.contains(e.target)) sd.classList.remove('open');
   const um = document.getElementById('userMenu'), ub = document.getElementById('userBtn');
-  if (!um.contains(e.target) && e.target !== ub) um.classList.remove('open');
+  if (um && !um.contains(e.target) && e.target !== ub) um.classList.remove('open');
 });
 
 // =====================================================================
@@ -1450,12 +2353,10 @@ function scrollIntoSheet(el) {
 }
 
 (function setupViewportHandling() {
-  const fab = document.getElementById('fab');
+  const fab = document.getElementById('mainFab');
   const sheet = document.getElementById('sheet');
 
-  if (window.visualViewport) {
-    let initialHeight = window.visualViewport.height;
-
+  if (window.visualViewport && fab) {
     window.visualViewport.addEventListener('resize', () => {
       const vh = window.visualViewport.height;
       const ratio = vh / window.innerHeight;
@@ -1489,10 +2390,8 @@ async function init() {
   await loadFromLocal();
   migrateAll();
   saveAllToLocal();
-  buildCatBar();
   buildCatGrid();
-  renderList();
-  setupListSwipe();
+  refreshUI();
   initialRenderDone = true;
   initFirebase();
   updateSyncUI();
